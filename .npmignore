@@ -1,0 +1,43 @@
+# Source files
+src/
+*.ts
+*.tsx
+
+# Development files
+.env
+.env.example
+*.log
+.DS_Store
+
+# Git
+.git/
+.gitignore
+
+# Node modules
+node_modules/
+
+# Build artifacts (except dist)
+*.tgz
+*.tar.gz
+
+# IDE
+.vscode/
+.idea/
+
+# Test files
+test/
+tests/
+__tests__/
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+
+# Documentation (except README)
+docs/
+*.md
+!README.md
+
+# Other
+coverage/
+.nyc_output/ 
