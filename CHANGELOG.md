@@ -5,7 +5,14 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
-## [1.6.0] - 2024-12-19
+## [1.7.0] - 2024-12-19
+
+### 🚀 Adicionado
+- **Nova ferramenta MCP**: `customize_agents` - Personalização automática do AGENTS.md
+- **Análise inteligente de projeto**: Detecta package manager, frameworks e ferramentas automaticamente
+- **Personalização técnica seletiva**: Altera apenas seções técnicas, preserva regras do Flow
+- **Detecção automática**: Identifica npm/yarn/pnpm, React/Vue/Angular, TypeScript/ESLint/Jest, etc.
+- **Preservação de regras**: Mantém intactas as regras do fluxo Flow, altera apenas seções técnicas
 
 ### 🔧 Melhorado
 - **AGENTS.md Template**: Transformado em template personalizável para desenvolvedores
@@ -18,9 +25,41 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 - **Exemplos Práticos**: Incluídos exemplos de personalização para diferentes tipos de projeto
 - **Guia de Configuração**: Instruções passo-a-passo para personalizar o template
 - **Boas Práticas**: Orientações sobre como manter compatibilidade com IA
+- **Nova Ferramenta**: Documentação completa da ferramenta `customize_agents`
 
 ### ✅ Melhorias
-- **Personalização**: Desenvolvedores podem adaptar o template às necessidades específicas
+- **Personalização Automática**: IA pode personalizar AGENTS.md baseado na análise do projeto
+- **Preservação de Regras**: Mantém intactas as regras do fluxo Flow, altera apenas seções técnicas
+- **Detecção Inteligente**: Identifica automaticamente tecnologias e padrões do projeto
+- **Flexibilidade**: Suporte a diferentes ferramentas (npm, yarn, pnpm, etc.)
+- **Clareza**: Placeholders claros indicam onde personalizar
+- **Compatibilidade**: Estrutura base mantida para funcionamento com IA
+
+## [1.6.0] - 2024-12-19
+
+### 🚀 Adicionado
+- **Nova ferramenta MCP**: `customize_agents` - Personalização automática do AGENTS.md
+- **Análise inteligente de projeto**: Detecta package manager, frameworks e ferramentas automaticamente
+- **Personalização técnica seletiva**: Altera apenas seções técnicas, preserva regras do Flow
+- **Detecção automática**: Identifica npm/yarn/pnpm, React/Vue/Angular, TypeScript/ESLint/Jest, etc.
+
+### 🔧 Melhorado
+- **AGENTS.md Template**: Transformado em template personalizável para desenvolvedores
+- **Instruções de Desenvolvimento**: Seção com placeholders para comandos específicos do projeto
+- **Instruções de PR**: Template personalizável para processos de review específicos
+- **Flexibilidade**: Desenvolvedores podem personalizar comandos, regras e critérios específicos
+
+### 📚 Documentação
+- **README.md**: Adicionada seção completa sobre configuração personalizada do AGENTS.md
+- **Exemplos Práticos**: Incluídos exemplos de personalização para diferentes tipos de projeto
+- **Guia de Configuração**: Instruções passo-a-passo para personalizar o template
+- **Boas Práticas**: Orientações sobre como manter compatibilidade com IA
+- **Nova Ferramenta**: Documentação completa da ferramenta `customize_agents`
+
+### ✅ Melhorias
+- **Personalização Automática**: IA pode personalizar AGENTS.md baseado na análise do projeto
+- **Preservação de Regras**: Mantém intactas as regras do fluxo Flow, altera apenas seções técnicas
+- **Detecção Inteligente**: Identifica automaticamente tecnologias e padrões do projeto
 - **Flexibilidade**: Suporte a diferentes ferramentas (npm, yarn, pnpm, etc.)
 - **Clareza**: Placeholders claros indicam onde personalizar
 - **Compatibilidade**: Estrutura base mantida para funcionamento com IA

@@ -138,6 +138,7 @@ O Flow implementa um servidor MCP que permite integração direta com assistente
 - **validate_task**: Validar estrutura de tasks específicas
 - **get_task_info**: Obter informações detalhadas de tasks
 - **get_project_status**: Estatísticas gerais do projeto
+- **customize_agents**: Personalizar AGENTS.md automaticamente baseado na análise do projeto
 
 **Fase 2 - AI Integration:**
 - **generate_business_context**: Gerar BUSINESS_CONTEXT.md com preenchimento automático de tags
@@ -373,6 +374,27 @@ O arquivo `AGENTS.md` inclui seções que devem ser personalizadas pelos desenvo
 
 **Como Personalizar:**
 
+### Opção 1: Personalização Automática (Recomendada)
+Use a ferramenta MCP `customize_agents` para personalização automática:
+
+```bash
+# Via MCP (recomendado)
+customize_agents({
+  workingDirectory: "/path/to/your/project",
+  forceUpdate: false,
+  preserveCustomizations: true
+})
+```
+
+**O que a ferramenta faz automaticamente:**
+- 🔍 **Analisa o projeto** (package.json, lock files, configs)
+- 📦 **Detecta package manager** (npm, yarn, pnpm)
+- 🛠️ **Identifica frameworks** (React, Vue, Angular, etc.)
+- 🔧 **Detecta ferramentas** (TypeScript, ESLint, Jest, etc.)
+- ⚙️ **Personaliza comandos** baseado no package manager
+- 📝 **Mantém regras do Flow** intactas (só altera seções técnicas)
+
+### Opção 2: Personalização Manual
 1. **Edite o arquivo `AGENTS.md`** na raiz do seu projeto
 2. **Substitua os placeholders** pelos comandos e regras específicos
 3. **Adicione seções personalizadas** conforme necessário
