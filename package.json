@@ -1,8 +1,8 @@
 {
   "name": "@godrix/flow",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "module",
-  "description": "CLI tool to create structured task contexts with templates",
+  "description": "Context-Driven Development CLI: Create structured task contexts with AI-optimized templates for efficient software development workflow",
   "main": "./dist/cli.js",
   "bin": {
     "@godrix/flow": "./dist/cli.js"
@@ -16,13 +16,37 @@
   },
   "keywords": [
     "cli",
-    "task",
+    "context-driven-development",
+    "ai-development",
+    "task-management",
+    "workflow",
     "templates",
     "productivity",
-    "workflow"
+    "software-development",
+    "project-management",
+    "gherkin",
+    "bdd",
+    "agile",
+    "typescript",
+    "nodejs"
   ],
-  "author": "Carlos Godri",
+  "author": {
+    "name": "Carlos Godri",
+    "email": "carlos@godrix.dev",
+    "url": "https://github.com/godrix"
+  },
   "license": "MIT",
+  "homepage": "https://github.com/godrix/flow#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/godrix/flow.git"
+  },
+  "bugs": {
+    "url": "https://github.com/godrix/flow/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "files": [
     "dist/**/*"
   ],

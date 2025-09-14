@@ -19,9 +19,9 @@ export async function createTaskContext(taskName: string, projectPath: string): 
     const flowDir = path.join(projectPath, '.flow');
     await fs.ensureDir(flowDir);
     
-    // Verificar se AI_INSTRUCTIONS.md e PROJECT_CONTEXT.md existem na raiz do .flow
+    // Verificar se AGENTS.md e PROJECT_CONTEXT.md existem na raiz do .flow
     // Se não existirem, criar na primeira execução
-    const rootTemplates = ['AI_INSTRUCTIONS.md', 'PROJECT_CONTEXT.md'];
+    const rootTemplates = ['AGENTS.md', 'PROJECT_CONTEXT.md'];
     for (const template of rootTemplates) {
       const rootTemplatePath = path.join(flowDir, template);
       if (!(await fs.pathExists(rootTemplatePath))) {
@@ -44,7 +44,7 @@ export async function createTaskContext(taskName: string, projectPath: string): 
     const taskTemplates = [
       'APPROACH.md',
       'BUSINESS_CONTEXT.md',
-      'COMPLETION_REPOORT.md'
+      'COMPLETION_REPORT.md'
     ];
     
     const filesCreated: string[] = [];

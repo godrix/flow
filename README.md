@@ -1,94 +1,195 @@
 # @godrix/flow
 
-> **The ABC Workflow: Software Engineering in Three Phases**
+> **Context-Driven Development: Estrutura Inteligente para Desenvolvimento com IA**
 
-In software development, clarity is the bridge between a great idea and a great product. ```@godrix/flow``` implements the ABC Workflow, a lean methodology that structures every task into three distinct phases: Requirements (Business Context), Design (Approach), and Implementation (Completion Report). This process ensures alignment, traceability, and a relentless focus on delivering value.
+O `@godrix/flow` implementa uma metodologia de desenvolvimento baseada em contexto que estrutura cada tarefa em três fases distintas: **Requisitos** (Business Context), **Design** (Approach), e **Implementação** (Completion Report). Este processo garante alinhamento, rastreabilidade e foco constante na entrega de valor.
 
-This workflow creates an ecosystem where humans and AI can collaborate with precision and purpose.
+Este workflow cria um ecossistema onde humanos e IA podem colaborar com precisão e propósito.
 
-## Our Principles
+## 🎯 Princípios Fundamentais
 
-### A is for Approach: The Immutable Technical Blueprint
+### A - Approach: O Blueprint Técnico Imutável
+Uma vez que os requisitos estão claros, um plano técnico sólido é criado. O `APPROACH.md` serve como o blueprint de engenharia. Ele detalha a arquitetura, design e um plano de implementação definido. Este documento é nossa referência; não muda durante a execução, garantindo que o plano permaneça como fonte única da verdade.
 
-Once the requirements are clear, a solid technical plan is crafted. The ```APPROACH.md``` serves as the engineering blueprint. It details the architecture, design, and a defined implementation plan. This document is our reference; it does not change during execution, ensuring the plan remains the single source of truth.
+### B - Business Context: Definindo o "Porquê" com Precisão
+Toda tarefa começa com uma compreensão profunda de seu propósito. O arquivo `BUSINESS_CONTEXT.md` é nossa fonte de verdade para requisitos, usando sintaxe Gherkin (Given/When/Then) para criar especificações comportamentais que são claras, testáveis e compreendidas por todos.
 
-### B is for Business Context: Defining the "Why" with Precision
+### C - Completion Report: A Evidência do Trabalho Realizado
+O progresso deve ser documentado. O `COMPLETION_REPORT.md` é o registro formal e cronológico do trabalho realizado. Ele conecta as ações tomadas de volta às tarefas planejadas, documenta desvios e serve como prova final de que os objetivos no `BUSINESS_CONTEXT.md` foram atendidos.
 
-Every task begins with a deep understanding of its purpose. The ```BUSINESS_CONTEXT.md``` file is our source of truth for requirements, using Gherkin syntax (Given/When/Then) to create behavioral specifications that are clear, testable, and understood by everyone.
-
-### C is for Completion Report: The Evidence of Work Done
-
-Progress must be documented. The ```COMPLETION_REPORT.md``` is the formal, chronological record of the work performed. It connects the actions taken back to the planned tasks, documents deviations, and serves as the final proof that the objectives in the ```BUSINESS_CONTEXT.md``` have been met.
-
-The ABC Workflow is not just about creating files; it's about creating clarity, promoting discipline, and empowering teams to build better software, faster.
-
----
-
-## Installation
+## 🚀 Instalação
 
 ```bash
 npm install -g @godrix/flow
 ```
 
-## Usage
+## 💻 Uso
 
 ```bash
-npx @godrix/flow <task-name>
+npx @godrix/flow <nome-da-tarefa>
 ```
 
-### Examples
+### Exemplos
 
 ```bash
-# Create a task with name task-1234
+# Criar uma tarefa com nome task-1234
 npx @godrix/flow task-1234
 
-# Create a feature task
+# Criar uma tarefa de feature
 npx @godrix/flow FEATURE_AUTH
 
-# Create a bug fix task
+# Criar uma tarefa de correção de bug
 npx @godrix/flow BUG_LOGIN_ISSUE
+
+# Criar uma tarefa de melhoria
+npx @godrix/flow IMPROVE_PERFORMANCE
 ```
 
-## What Gets Created
+## 📁 Estrutura Criada
 
-The command creates an organized structure in the current directory:
+O comando cria uma estrutura organizada no diretório atual:
 
-### Global Files (in .flow root)
-- `AI_INSTRUCTIONS.md` - AI instructions (created on first run)
-- `PROJECT_CONTEXT.md` - Project context (created on first run)
+### Arquivos Globais (na raiz .flow)
+- `AGENTS.md` - Instruções para IA (criado na primeira execução)
+- `PROJECT_CONTEXT.md` - Contexto do projeto (criado na primeira execução)
 
-### Task Folder (.flow/XX_task-name)
-- `APPROACH.md` - The immutable technical blueprint.
-- `BUSINESS_CONTEXT.md` - The business requirements and acceptance criteria.
-- `COMPLETION_REPORT.md` - The formal report of work done.
+### Pasta da Tarefa (.flow/XX_nome-da-tarefa)
+- `APPROACH.md` - O blueprint técnico imutável
+- `BUSINESS_CONTEXT.md` - Os requisitos de negócio e critérios de aceitação
+- `COMPLETION_REPORT.md` - O relatório formal do trabalho realizado
 
-## Folder Structure
+## 🏗️ Estrutura de Pastas
 
 ```
-your-project/
+seu-projeto/
 ├── .flow/
-│   ├── AI_INSTRUCTIONS.md          # Global file
-│   ├── PROJECT_CONTEXT.md          # Global file
-│   ├── 00_task-1234/
+│   ├── AGENTS.md                    # Arquivo global - instruções para IA
+│   ├── PROJECT_CONTEXT.md           # Arquivo global - contexto do projeto
+│   ├── 00_task-1234/               # Tarefa específica
 │   │   ├── APPROACH.md
 │   │   ├── BUSINESS_CONTEXT.md
 │   │   └── COMPLETION_REPORT.md
-│   ├── 01_FEATURE_AUTH/
-│   │   └── ...
-│   └── 02_BUG_LOGIN_ISSUE/
-│       └── ...
+│   ├── 01_FEATURE_AUTH/            # Outra tarefa
+│   │   ├── APPROACH.md
+│   │   ├── BUSINESS_CONTEXT.md
+│   │   └── COMPLETION_REPORT.md
+│   └── 02_BUG_LOGIN_ISSUE/         # Mais uma tarefa
+│       ├── APPROACH.md
+│       ├── BUSINESS_CONTEXT.md
+│       └── COMPLETION_REPORT.md
 └── ...
 ```
 
-## Development
+## 🔄 Fluxo de Desenvolvimento
+
+### 1. **Isolamento por Tarefa**
+Cada `XX_nome-da-tarefa` representa uma tarefa específica e isolada. A IA trabalha APENAS com os arquivos da tarefa atual, ignorando outras tarefas existentes, a menos que explicitamente referenciadas.
+
+### 2. **Context-Driven Development**
+- **Contexto Global**: `PROJECT_CONTEXT.md` fornece contexto geral do projeto
+- **Contexto Específico**: Cada tarefa tem seu próprio contexto isolado
+- **Rastreabilidade**: Todas as ações são documentadas e rastreáveis
+
+### 3. **Metodologia ABC**
+- **A**pproach: Plano técnico imutável
+- **B**usiness Context: Requisitos funcionais claros
+- **C**ompletion Report: Evidência do trabalho realizado
+
+## 🤖 Integração com IA
+
+### Templates Otimizados para IA
+- **Prompts estruturados** seguindo melhores práticas
+- **Contexto claro** para cada tipo de arquivo
+- **Instruções específicas** para diferentes cenários
+- **Rastreabilidade completa** de todas as ações
+
+### Boas Práticas Implementadas
+- **Role-based prompts** com contexto específico
+- **Constraints claras** sobre permissões de arquivos
+- **Examples práticos** para diferentes situações
+- **Quality gates** para validação de entregas
+
+## 🛠️ Desenvolvimento
 
 ```bash
-# Install dependencies
+# Instalar dependências
 npm install
 
-# Build project
+# Compilar projeto
 npm run build
 
-# Test locally
+# Testar localmente
 npm run dev task-1234
 ```
+
+## 📋 Templates Incluídos
+
+### AGENTS.md
+Instruções completas para IA com:
+- Workflow obrigatório
+- Permissões de arquivos
+- Regras de isolamento por tarefa
+- Boas práticas de desenvolvimento
+
+### PROJECT_CONTEXT.md
+Contexto global do projeto com:
+- Missão e objetivos
+- Stack tecnológico
+- Padrões de desenvolvimento
+- Métricas de sucesso
+
+### BUSINESS_CONTEXT.md
+Requisitos funcionais com:
+- User stories
+- Cenários Gherkin
+- Critérios de aceitação
+- Métricas de negócio
+
+### APPROACH.md
+Plano técnico com:
+- Arquitetura da solução
+- Modelos de dados
+- Contratos de API
+- Estratégia de testes
+
+### COMPLETION_REPORT.md
+Relatório de conclusão com:
+- Resumo executivo
+- Log cronológico
+- Validação de critérios
+- Métricas de qualidade
+
+## 🎯 Benefícios
+
+### Para Desenvolvedores
+- **Estrutura clara** para organizar tarefas
+- **Contexto preservado** entre sessões
+- **Rastreabilidade completa** do progresso
+- **Padrões consistentes** em todo o projeto
+
+### Para IA
+- **Instruções claras** e específicas
+- **Contexto isolado** por tarefa
+- **Prompts otimizados** para melhor compreensão
+- **Workflow estruturado** para execução eficiente
+
+### Para Equipes
+- **Colaboração eficiente** entre humanos e IA
+- **Documentação automática** do progresso
+- **Padrões uniformes** de desenvolvimento
+- **Qualidade consistente** nas entregas
+
+## 🔗 Links Úteis
+
+- [Documentação Completa](./docs/)
+- [Exemplos de Uso](./examples/)
+- [Contribuindo](./CONTRIBUTING.md)
+- [Changelog](./CHANGELOG.md)
+
+## 📄 Licença
+
+MIT License - veja [LICENSE](./LICENSE) para detalhes.
+
+---
+
+**Desenvolvido com ❤️ para melhorar a colaboração entre humanos e IA no desenvolvimento de software.**
