@@ -65,9 +65,9 @@ npx @godrix/flow IMPROVE_PERFORMANCE --type improvement
 
 O comando cria uma estrutura organizada no diretório atual:
 
-### Arquivos Globais (na raiz .flow)
-- `AGENTS.md` - Instruções para IA (criado na primeira execução)
-- `PROJECT_CONTEXT.md` - Contexto do projeto (criado na primeira execução)
+### Arquivos Globais
+- `AGENTS.md` - Instruções para IA (criado na raiz do projeto por padrão)
+- `.flow/PROJECT_CONTEXT.md` - Contexto do projeto (criado na primeira execução)
 
 ### Pasta da Tarefa (.flow/XX_nome-da-tarefa)
 - `APPROACH.md` - O blueprint técnico imutável
@@ -78,22 +78,21 @@ O comando cria uma estrutura organizada no diretório atual:
 
 ```
 seu-projeto/
-├── .flow/
-│   ├── AGENTS.md                    # Arquivo global - instruções para IA
-│   ├── PROJECT_CONTEXT.md           # Arquivo global - contexto do projeto
-│   ├── 00_task-1234/               # Tarefa específica
-│   │   ├── APPROACH.md
-│   │   ├── BUSINESS_CONTEXT.md
-│   │   └── COMPLETION_REPORT.md
-│   ├── 01_FEATURE_AUTH/            # Outra tarefa
-│   │   ├── APPROACH.md
-│   │   ├── BUSINESS_CONTEXT.md
-│   │   └── COMPLETION_REPORT.md
-│   └── 02_BUG_LOGIN_ISSUE/         # Mais uma tarefa
-│       ├── APPROACH.md
-│       ├── BUSINESS_CONTEXT.md
-│       └── COMPLETION_REPORT.md
-└── ...
+├── AGENTS.md                           # Arquivo global - instruções para IA (raiz)
+└── .flow/
+    ├── PROJECT_CONTEXT.md              # Arquivo global - contexto do projeto
+    ├── 00_task-1234/                  # Tarefa específica
+    │   ├── APPROACH.md
+    │   ├── BUSINESS_CONTEXT.md
+    │   └── COMPLETION_REPORT.md
+    ├── 01_FEATURE_AUTH/                # Outra tarefa
+    │   ├── APPROACH.md
+    │   ├── BUSINESS_CONTEXT.md
+    │   └── COMPLETION_REPORT.md
+    └── 02_BUG_LOGIN_ISSUE/             # Mais uma tarefa
+        ├── APPROACH.md
+        ├── BUSINESS_CONTEXT.md
+        └── COMPLETION_REPORT.md
 ```
 
 ## 🔄 Fluxo de Desenvolvimento
@@ -210,6 +209,51 @@ O Flow implementa um servidor MCP que permite integração direta com assistente
 - **Constraints claras** sobre permissões de arquivos
 - **Examples práticos** para diferentes situações
 - **Quality gates** para validação de entregas
+
+## 🚀 Comandos CLI
+
+### Comandos Básicos
+```bash
+# Criar uma nova task
+flow <task-name> [--type feature|bug|improvement|research]
+
+# Listar todas as tasks
+flow list
+
+# Validar estrutura de uma task
+flow validate <task-name>
+
+# Inicializar projeto Flow
+flow init [--name <name>] [--mission <mission>] [--agents-scoped]
+
+# Iniciar servidor MCP para IA
+flow mcp
+```
+
+### Comando `init` - Inicialização de Projeto
+
+**Modo Padrão (Recomendado):**
+```bash
+# Cria AGENTS.md na raiz do projeto
+flow init --name "Meu Projeto" --mission "Resolver problema X"
+```
+
+**Modo Agents-Scoped (Legacy):**
+```bash
+# Cria AGENTS.md dentro de .flow/ (comportamento anterior)
+flow init --agents-scoped
+```
+
+### Opções do `init`:
+- `--name <name>`: Nome do projeto
+- `--mission <mission>`: Declaração de missão
+- `--agents-scoped`: Cria AGENTS.md dentro de .flow/ (modo legacy)
+
+### Vantagens do Modo Padrão:
+- ✅ **Visibilidade imediata**: IAs encontram instruções na raiz
+- ✅ **Padronização**: Todos os projetos Flow seguem a mesma estrutura
+- ✅ **Facilidade**: Não precisa navegar até .flow/
+- ✅ **Convenção**: Segue padrões como README.md, CONTRIBUTING.md
 
 ## 🛠️ Desenvolvimento
 

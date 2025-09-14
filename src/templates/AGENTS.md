@@ -7,14 +7,28 @@ Você é um assistente de desenvolvimento especializado em Context-Driven Develo
 ## 📁 Estrutura do Projeto
 
 ```
-/.flow/
-├── AGENTS.md (este arquivo - instruções globais)
-├── PROJECT_CONTEXT.md (contexto global do projeto)
-└── {{TASK_FOLDER}}/ (ex: 01_FEATURE_AUTH/)
-    ├── APPROACH.md (plano técnico imutável)
-    ├── BUSINESS_CONTEXT.md (requisitos funcionais)
-    └── COMPLETION_REPORT.md (log de progresso)
+/
+├── AGENTS.md (este arquivo - instruções globais para IA)
+└── .flow/
+    ├── PROJECT_CONTEXT.md (contexto global do projeto)
+    └── {{TASK_FOLDER}}/ (ex: 01_FEATURE_AUTH/)
+        ├── APPROACH.md (plano técnico imutável)
+        ├── BUSINESS_CONTEXT.md (requisitos funcionais)
+        └── COMPLETION_REPORT.md (log de progresso)
 ```
+
+### 🔄 Modos de Localização do AGENTS.md
+
+**Modo Padrão (Recomendado)**: AGENTS.md na raiz do projeto
+- ✅ Visibilidade imediata para IAs
+- ✅ Padronização entre projetos
+- ✅ Facilita integração com ferramentas de IA
+- ✅ Segue convenções como README.md
+
+**Modo Agents-Scoped (Legacy)**: AGENTS.md dentro de .flow/
+- ⚠️ Requer navegação até .flow/
+- ⚠️ Menos visível para IAs
+- ⚠️ Comportamento anterior mantido para compatibilidade
 
 ### 🔄 Fluxo de Desenvolvimento por Task
 
@@ -22,21 +36,22 @@ Você é um assistente de desenvolvimento especializado em Context-Driven Develo
 
 #### Exemplo de Estrutura com Múltiplas Tasks:
 ```
-/.flow/
+/
 ├── AGENTS.md
-├── PROJECT_CONTEXT.md
-├── 01_FEATURE_AUTH/
-│   ├── APPROACH.md
-│   ├── BUSINESS_CONTEXT.md
-│   └── COMPLETION_REPORT.md
-├── 02_BUG_LOGIN_ISSUE/
-│   ├── APPROACH.md
-│   ├── BUSINESS_CONTEXT.md
-│   └── COMPLETION_REPORT.md
-└── 03_FEATURE_PROFILE/
-    ├── APPROACH.md
-    ├── BUSINESS_CONTEXT.md
-    └── COMPLETION_REPORT.md
+└── .flow/
+    ├── PROJECT_CONTEXT.md
+    ├── 01_FEATURE_AUTH/
+    │   ├── APPROACH.md
+    │   ├── BUSINESS_CONTEXT.md
+    │   └── COMPLETION_REPORT.md
+    ├── 02_BUG_LOGIN_ISSUE/
+    │   ├── APPROACH.md
+    │   ├── BUSINESS_CONTEXT.md
+    │   └── COMPLETION_REPORT.md
+    └── 03_FEATURE_PROFILE/
+        ├── APPROACH.md
+        ├── BUSINESS_CONTEXT.md
+        └── COMPLETION_REPORT.md
 ```
 
 **Regra de Isolamento**: Se você está trabalhando na task `02_BUG_LOGIN_ISSUE`, deve usar APENAS os arquivos dessa pasta, ignorando completamente as outras tasks (`01_FEATURE_AUTH`, `03_FEATURE_PROFILE`).
@@ -61,11 +76,12 @@ Você é um assistente de desenvolvimento especializado em Context-Driven Develo
 
 ### 2. Inicialização da Tarefa
 ```
-1. Ler PROJECT_CONTEXT.md (contexto global - sempre o mesmo)
-2. Navegar para {{TASK_FOLDER}}/ específica
-3. Ler APPROACH.md (plano técnico desta task)
-4. Ler BUSINESS_CONTEXT.md (requisitos desta task)
-5. Iniciar execução seguindo o plano desta task
+1. Ler AGENTS.md (instruções globais - sempre na raiz do projeto)
+2. Ler PROJECT_CONTEXT.md (contexto global - sempre em .flow/)
+3. Navegar para {{TASK_FOLDER}}/ específica
+4. Ler APPROACH.md (plano técnico desta task)
+5. Ler BUSINESS_CONTEXT.md (requisitos desta task)
+6. Iniciar execução seguindo o plano desta task
 ```
 
 ### 3. Durante a Execução
@@ -177,9 +193,11 @@ Atualiza o PROJECT_CONTEXT.md com novas informações ou cria se não existir.
 
 #### `init_flow_project`
 Inicializa um novo projeto Flow com diretório .flow, PROJECT_CONTEXT.md e AGENTS.md.
-- **Parâmetros**: projectName, mission, goals, techStack, architecture, standards, tools, metrics, notes, workingDirectory (todos opcionais)
+- **Parâmetros**: projectName, mission, goals, techStack, architecture, standards, tools, metrics, notes, workingDirectory, agentsScoped (todos opcionais)
 - **Uso**: Para criar um novo projeto Flow do zero
 - **Arquivos Criados**: `.flow/`, `PROJECT_CONTEXT.md`, `AGENTS.md`, `.gitignore`
+- **Modo Padrão**: AGENTS.md criado na raiz do projeto (recomendado)
+- **Modo Legacy**: Use `agentsScoped: true` para criar AGENTS.md dentro de .flow/
 - **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
 
 ### **⚠️ IMPORTANTE: Parâmetro `workingDirectory`**

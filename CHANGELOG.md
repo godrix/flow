@@ -5,6 +5,34 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.4.0] - 2024-12-19
+
+### 🚀 Adicionado
+- **Comando `flow init`**: Novo comando CLI para inicializar projetos Flow
+- **Modo Padrão**: AGENTS.md agora é criado na raiz do projeto por padrão
+- **Modo Agents-Scoped**: Opção `--agents-scoped` para comportamento legacy
+- **Parâmetro `agentsScoped`**: Suporte no MCP para escolher localização do AGENTS.md
+- **CLI Options**: `--name`, `--mission`, `--agents-scoped` no comando init
+
+### 🔄 Mudado
+- **Comportamento Padrão**: AGENTS.md criado na raiz do projeto (não mais em .flow/)
+- **Estrutura de Projeto**: AGENTS.md agora fica visível na raiz para melhor integração com IA
+- **taskService**: Verifica AGENTS.md na raiz primeiro, só cria em .flow/ se não existir
+- **Gitignore**: Atualizado para refletir nova localização do AGENTS.md
+- **Templates**: AGENTS.md atualizado com nova estrutura e modos de localização
+
+### 📚 Documentação
+- **README.md**: Adicionada seção completa de comandos CLI
+- **AGENTS.md**: Atualizada estrutura do projeto e modos de localização
+- **Exemplos**: Incluídos exemplos de uso dos novos comandos
+- **Workflow**: Atualizado workflow recomendado com nova estrutura
+
+### ✅ Melhorias
+- **Visibilidade**: IAs encontram instruções imediatamente na raiz
+- **Padronização**: Estrutura consistente entre todos os projetos Flow
+- **Compatibilidade**: Modo legacy mantido para projetos existentes
+- **UX**: Comando init mais intuitivo e completo
+
 ## [1.3.3] - 2024-12-19
 
 ### 🐛 Corrigido

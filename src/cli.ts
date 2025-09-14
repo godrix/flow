@@ -11,7 +11,7 @@ const program = new Command();
 program
   .name('flow')
   .description('CLI tool to create structured task contexts with templates')
-  .version('1.3.3');
+  .version('1.4.0');
 
 program
   .argument('<taskName>', 'Name of the task (e.g., task-1234, FEATURE_AUTH)')
@@ -211,6 +211,249 @@ program
       
     } catch (error) {
       console.error(chalk.red(`❌ Error validating task: ${error}`));
+      process.exit(1);
+    }
+  });
+
+program
+  .command('init')
+  .description('Initialize a new Flow project')
+  .option('-n, --name <name>', 'Project name')
+  .option('-m, --mission <mission>', 'Project mission statement')
+  .option('--agents-scoped', 'Create AGENTS.md inside .flow directory (legacy behavior)')
+  .action(async (options: { name?: string; mission?: string; agentsScoped?: boolean }) => {
+    try {
+      console.log(chalk.blue('🚀 Initializing Flow project...'));
+      
+      const currentDir = process.cwd();
+      
+      // Check if Flow project already exists
+      const flowDir = path.join(currentDir, '.flow');
+      if (await fs.pathExists(flowDir)) {
+        console.log(chalk.yellow('⚠️  Flow project already exists!'));
+        console.log(chalk.gray(`📁 Directory: ${flowDir}`));
+        console.log(chalk.gray('Use "flow update-context" to update existing context or remove .flow directory to reinitialize.'));
+        return;
+      }
+      
+      // Create .flow directory
+      await fs.ensureDir(flowDir);
+      
+      // Create PROJECT_CONTEXT.md
+      const projectContextPath = path.join(flowDir, 'PROJECT_CONTEXT.md');
+      const currentDate = new Date().toISOString().split('T')[0];
+      
+      let projectContextContent = `# Contexto do Projeto
+
+## 🎯 Missão & Objetivos
+
+### Missão Principal
+${options.mission || '*Descreva a missão central do projeto - o problema que resolve e o valor que entrega.*'}
+
+### Objetivos de Longo Prazo
+- **Objetivo 1**: Descrição específica e mensurável
+- **Objetivo 2**: Descrição específica e mensurável
+- **Objetivo 3**: Descrição específica e mensurável
+
+## 🛠️ Stack Tecnológico
+
+### Frontend
+- **Framework**: A definir
+- **Styling**: A definir
+- **State Management**: A definir
+
+### Backend
+- **Runtime**: A definir
+- **Framework**: A definir
+- **Database**: A definir
+
+### DevOps & Infraestrutura
+- **Deployment**: A definir
+- **Monitoring**: A definir
+- **CI/CD**: A definir
+
+## 🏗️ Arquitetura
+
+### Princípios Arquiteturais
+- **Modularidade**: Componentes independentes e reutilizáveis
+- **Escalabilidade**: Capacidade de crescer com a demanda
+- **Manutenibilidade**: Código limpo e bem documentado
+- **Performance**: Otimização contínua
+
+### Padrões de Design
+- **Padrão 1**: Descrição e justificativa
+- **Padrão 2**: Descrição e justificativa
+
+### Diretrizes de Desenvolvimento
+- **Code Review**: Obrigatório para todas as mudanças
+- **Testing**: Cobertura mínima de 80%
+- **Documentation**: Documentação atualizada
+
+## 📋 Padrões de Desenvolvimento
+
+### Convenções de Código
+- **Naming**: camelCase para variáveis, PascalCase para classes
+- **Formatting**: Prettier com configuração padrão
+- **Linting**: ESLint com regras estritas
+
+### Qualidade de Código
+- **Complexity**: Máximo 10 por função
+- **Duplication**: Máximo 3% de código duplicado
+- **Coverage**: Mínimo 80% de cobertura de testes
+
+### Git Workflow
+- **Branches**: feature/, bugfix/, hotfix/
+- **Commits**: Conventional Commits
+- **Pull Requests**: Obrigatórios para merge
+
+## 🔧 Ferramentas e Configurações
+
+### Desenvolvimento
+- **IDE**: VS Code com extensões recomendadas
+- **Debugging**: Configuração específica do projeto
+- **Hot Reload**: Configurado para desenvolvimento local
+
+### Monitoramento
+- **Logs**: Estruturados com níveis apropriados
+- **Metrics**: Coleta de métricas de performance
+- **Alerts**: Configuração de alertas críticos
+
+### CI/CD
+- **Build**: Pipeline automatizado
+- **Testing**: Execução automática de testes
+- **Deploy**: Deploy automático em ambientes
+
+## 📊 Métricas de Sucesso
+
+### Técnicas
+- **Performance**: Tempo de resposta < 200ms
+- **Availability**: 99.9% de uptime
+- **Error Rate**: < 0.1% de erros
+
+### Negócio
+- **User Satisfaction**: Score > 4.5/5
+- **Adoption Rate**: Crescimento mensal de usuários
+- **Feature Usage**: Taxa de utilização de funcionalidades
+
+## 🔄 Processo de Evolução
+
+### Atualizações de Contexto
+Este documento deve ser atualizado quando:
+- Novas tecnologias são adotadas
+- Princípios arquiteturais mudam
+- Padrões de desenvolvimento evoluem
+- Métricas de sucesso são redefinidas
+
+### Aprovação de Mudanças
+- **Minor Changes**: Aprovação do tech lead
+- **Major Changes**: Aprovação do time + arquiteto
+- **Architectural Changes**: Aprovação do CTO + stakeholders
+
+---
+**Última Atualização**: ${currentDate}  
+**Próxima Revisão**: ${new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}  
+**Responsável**: A definir`;
+
+      await fs.writeFile(projectContextPath, projectContextContent);
+      
+      // Create AGENTS.md
+      const agentsPath = options.agentsScoped 
+        ? path.join(flowDir, 'AGENTS.md')  // Legacy: inside .flow
+        : path.join(currentDir, 'AGENTS.md'); // Default: project root
+      
+      const agentsTemplatePath = path.join(path.dirname(new URL(import.meta.url).pathname), 'templates', 'AGENTS.md');
+      
+      if (await fs.pathExists(agentsTemplatePath)) {
+        const agentsContent = await fs.readFile(agentsTemplatePath, 'utf-8');
+        await fs.writeFile(agentsPath, agentsContent);
+      } else {
+        // Fallback: create basic AGENTS.md if template not found
+        const basicAgentsContent = `# 🤖 Instruções para Agentes de IA
+
+## 🎯 Contexto do Projeto
+Este é um projeto Flow que utiliza desenvolvimento orientado a contexto.
+
+## 📁 Estrutura do Projeto
+- \`.flow/\` - Diretório principal do Flow
+- \`.flow/PROJECT_CONTEXT.md\` - Contexto global do projeto
+- \`AGENTS.md\` - Este arquivo com instruções para IA (${options.agentsScoped ? 'dentro de .flow/' : 'na raiz do projeto'})
+- \`.flow/task-*/\` - Diretórios de tasks individuais
+
+## 🔄 Fluxo de Desenvolvimento
+1. **Criar Task**: Use \`flow <task-name>\` para nova task
+2. **Definir Contexto**: Preencha BUSINESS_CONTEXT.md
+3. **Planejar**: Preencha APPROACH.md
+4. **Implementar**: Desenvolva a solução
+5. **Documentar**: Preencha COMPLETION_REPORT.md
+
+## ⚠️ Regras Importantes
+- **Isolamento**: Cada task deve ser independente
+- **Referências**: Só referencie outras tasks quando necessário
+- **Qualidade**: Valide sempre com \`flow validate <task-name>\`
+
+## 🛠️ Comandos CLI Disponíveis
+- \`flow <task-name>\` - Criar nova task
+- \`flow list\` - Listar tasks existentes
+- \`flow validate <task-name>\` - Validar estrutura da task
+- \`flow init\` - Inicializar projeto Flow
+- \`flow mcp\` - Iniciar servidor MCP para IA
+
+**Última Atualização**: ${currentDate}
+`;
+        await fs.writeFile(agentsPath, basicAgentsContent);
+      }
+      
+      // Create .gitignore for .flow directory
+      const gitignorePath = path.join(flowDir, '.gitignore');
+      const gitignoreContent = options.agentsScoped 
+        ? `# Flow project files (agents-scoped mode)
+# Keep PROJECT_CONTEXT.md and AGENTS.md in version control
+!PROJECT_CONTEXT.md
+!AGENTS.md
+
+# Ignore task-specific files (they should be in individual task folders)
+*.md
+!PROJECT_CONTEXT.md
+!AGENTS.md
+`
+        : `# Flow project files (default mode)
+# Keep PROJECT_CONTEXT.md in version control
+# AGENTS.md is in project root and should be committed there
+!PROJECT_CONTEXT.md
+
+# Ignore task-specific files (they should be in individual task folders)
+*.md
+!PROJECT_CONTEXT.md
+`;
+      await fs.writeFile(gitignorePath, gitignoreContent);
+      
+      console.log(chalk.green('✅ Flow project initialized successfully!'));
+      console.log(chalk.gray(`📁 Directory: ${flowDir}`));
+      console.log(chalk.gray(`📄 PROJECT_CONTEXT.md: ${projectContextPath}`));
+      console.log(chalk.gray(`📄 AGENTS.md: ${agentsPath} ${options.agentsScoped ? '(inside .flow/)' : '(in project root)'}`));
+      console.log(chalk.gray(`📅 Created: ${currentDate}`));
+      
+      if (options.name) {
+        console.log(chalk.gray(`📋 Project name: ${options.name}`));
+      }
+      if (options.mission) {
+        console.log(chalk.gray(`🎯 Mission: ${options.mission}`));
+      }
+      
+      console.log(chalk.blue('\n✅ Next steps:'));
+      console.log(chalk.gray('1. Use "flow <task-name>" to create your first task'));
+      console.log(chalk.gray('2. Use "flow list" to see all tasks'));
+      console.log(chalk.gray('3. Use "flow validate <task-name>" to validate task structure'));
+      console.log(chalk.gray('4. Consult AGENTS.md for detailed AI instructions'));
+      
+      if (options.agentsScoped) {
+        console.log(chalk.yellow('\n📝 Note: AGENTS.md was created inside .flow/ (agents-scoped mode)'));
+      } else {
+        console.log(chalk.blue('\n📝 Note: AGENTS.md was created in project root (default mode)'));
+      }
+      
+    } catch (error) {
+      console.error(chalk.red(`❌ Error initializing Flow project: ${error}`));
       process.exit(1);
     }
   });

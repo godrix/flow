@@ -19,16 +19,26 @@ export async function createTaskContext(taskName: string, projectPath: string, t
     const flowDir = path.join(projectPath, '.flow');
     await fs.ensureDir(flowDir);
     
-    // Verificar se AGENTS.md e PROJECT_CONTEXT.md existem na raiz do .flow
-    // Se não existirem, criar na primeira execução
-    const rootTemplates = ['AGENTS.md', 'PROJECT_CONTEXT.md'];
-    for (const template of rootTemplates) {
-      const rootTemplatePath = path.join(flowDir, template);
-      if (!(await fs.pathExists(rootTemplatePath))) {
-        const sourceTemplatePath = path.join(__dirname, '..', 'templates', template);
-        if (await fs.pathExists(sourceTemplatePath)) {
-          await fs.copy(sourceTemplatePath, rootTemplatePath);
-        }
+    // Verificar se AGENTS.md existe na raiz do projeto ou na raiz do .flow
+    // Se não existir em nenhum lugar, criar na raiz do projeto (comportamento padrão)
+    const agentsInRoot = path.join(projectPath, 'AGENTS.md');
+    const agentsInFlow = path.join(flowDir, 'AGENTS.md');
+    
+    if (!(await fs.pathExists(agentsInRoot)) && !(await fs.pathExists(agentsInFlow))) {
+      // Criar AGENTS.md na raiz do projeto (comportamento padrão)
+      const agentsTemplatePath = path.join(__dirname, '..', 'templates', 'AGENTS.md');
+      if (await fs.pathExists(agentsTemplatePath)) {
+        await fs.copy(agentsTemplatePath, agentsInRoot);
+      }
+    }
+    
+    // Verificar se PROJECT_CONTEXT.md existe na raiz do .flow
+    // Se não existir, criar na primeira execução
+    const projectContextPath = path.join(flowDir, 'PROJECT_CONTEXT.md');
+    if (!(await fs.pathExists(projectContextPath))) {
+      const sourceTemplatePath = path.join(__dirname, '..', 'templates', 'PROJECT_CONTEXT.md');
+      if (await fs.pathExists(sourceTemplatePath)) {
+        await fs.copy(sourceTemplatePath, projectContextPath);
       }
     }
     

@@ -392,6 +392,10 @@ const tools: Tool[] = [
           type: 'string',
           description: 'Working directory where the project should be initialized (defaults to current directory)',
         },
+        agentsScoped: {
+          type: 'boolean',
+          description: 'If true, creates AGENTS.md inside .flow directory (legacy behavior). If false or not provided, creates AGENTS.md in project root (default)',
+        },
       },
     },
   },
@@ -1747,7 +1751,7 @@ Este documento deve ser atualizado quando:
       }
 
       case 'init_flow_project': {
-        const { projectName, mission, goals, techStack, architecture, standards, tools, metrics, notes, workingDirectory } = args as {
+        const { projectName, mission, goals, techStack, architecture, standards, tools, metrics, notes, workingDirectory, agentsScoped = false } = args as {
           projectName?: string;
           mission?: string;
           goals?: string[];
@@ -1758,6 +1762,7 @@ Este documento deve ser atualizado quando:
           metrics?: { technical?: any; business?: any };
           notes?: string;
           workingDirectory?: string;
+          agentsScoped?: boolean;
         };
 
         const currentDir = workingDirectory ? path.resolve(workingDirectory) : process.cwd();
@@ -1987,7 +1992,9 @@ Este documento deve ser atualizado quando:
         await fs.writeFile(projectContextPath, projectContextContent);
 
         // Create AGENTS.md from template
-        const agentsPath = path.join(flowDir, 'AGENTS.md');
+        const agentsPath = agentsScoped 
+          ? path.join(flowDir, 'AGENTS.md')  // Legacy: inside .flow
+          : path.join(currentDir, 'AGENTS.md'); // Default: project root
         const agentsTemplatePath = path.join(path.dirname(new URL(import.meta.url).pathname), 'templates', 'AGENTS.md');
         
         if (await fs.pathExists(agentsTemplatePath)) {
@@ -2003,7 +2010,7 @@ Este é um projeto Flow que utiliza desenvolvimento orientado a contexto.
 ## 📁 Estrutura do Projeto
 - \`.flow/\` - Diretório principal do Flow
 - \`.flow/PROJECT_CONTEXT.md\` - Contexto global do projeto
-- \`.flow/AGENTS.md\` - Este arquivo com instruções para IA
+- \`AGENTS.md\` - Este arquivo com instruções para IA (${agentsScoped ? 'dentro de .flow/' : 'na raiz do projeto'})
 - \`.flow/task-*/\` - Diretórios de tasks individuais
 
 ## 🔄 Fluxo de Desenvolvimento
@@ -2033,7 +2040,8 @@ Use as ferramentas MCP para automatizar o desenvolvimento:
 
         // Create .gitignore for .flow directory
         const gitignorePath = path.join(flowDir, '.gitignore');
-        const gitignoreContent = `# Flow project files
+        const gitignoreContent = agentsScoped 
+          ? `# Flow project files (agents-scoped mode)
 # Keep PROJECT_CONTEXT.md and AGENTS.md in version control
 !PROJECT_CONTEXT.md
 !AGENTS.md
@@ -2042,6 +2050,15 @@ Use as ferramentas MCP para automatizar o desenvolvimento:
 *.md
 !PROJECT_CONTEXT.md
 !AGENTS.md
+`
+          : `# Flow project files (default mode)
+# Keep PROJECT_CONTEXT.md in version control
+# AGENTS.md is in project root and should be committed there
+!PROJECT_CONTEXT.md
+
+# Ignore task-specific files (they should be in individual task folders)
+*.md
+!PROJECT_CONTEXT.md
 `;
         await fs.writeFile(gitignorePath, gitignoreContent);
 
@@ -2049,7 +2066,7 @@ Use as ferramentas MCP para automatizar o desenvolvimento:
           content: [
             {
               type: 'text',
-              text: `🎉 Projeto Flow inicializado com sucesso!\n\n📁 Diretório criado: ${flowDir}\n📄 PROJECT_CONTEXT.md: ${projectContextPath}\n📄 AGENTS.md: ${agentsPath}\n📅 Data de criação: ${currentDate}\n\n${projectName ? `📋 Nome do projeto: ${projectName}\n` : ''}${mission ? `🎯 Missão: ${mission}\n` : ''}${goals ? `📈 Objetivos: ${goals.length} objetivos definidos\n` : ''}${techStack ? `🛠️ Stack tecnológico: ${techStack.length} tecnologias\n` : ''}${architecture ? `🏗️ Arquitetura: Princípios e padrões definidos\n` : ''}${standards ? `📋 Padrões: Convenções de desenvolvimento definidas\n` : ''}${tools ? `🔧 Ferramentas: Configurações definidas\n` : ''}${metrics ? `📊 Métricas: Indicadores de sucesso definidos\n` : ''}${notes ? `📝 Notas: Informações adicionais incluídas\n` : ''}\n\n✅ Próximos passos:\n1. Use 'create_task' para criar sua primeira task\n2. Use 'list_tasks' para ver todas as tasks\n3. Use 'update_project_context' para atualizar o contexto conforme necessário\n4. Consulte AGENTS.md para instruções detalhadas para IA`,
+              text: `🎉 Projeto Flow inicializado com sucesso!\n\n📁 Diretório criado: ${flowDir}\n📄 PROJECT_CONTEXT.md: ${projectContextPath}\n📄 AGENTS.md: ${agentsPath} ${agentsScoped ? '(dentro de .flow/)' : '(na raiz do projeto)'}\n📅 Data de criação: ${currentDate}\n\n${projectName ? `📋 Nome do projeto: ${projectName}\n` : ''}${mission ? `🎯 Missão: ${mission}\n` : ''}${goals ? `📈 Objetivos: ${goals.length} objetivos definidos\n` : ''}${techStack ? `🛠️ Stack tecnológico: ${techStack.length} tecnologias\n` : ''}${architecture ? `🏗️ Arquitetura: Princípios e padrões definidos\n` : ''}${standards ? `📋 Padrões: Convenções de desenvolvimento definidas\n` : ''}${tools ? `🔧 Ferramentas: Configurações definidas\n` : ''}${metrics ? `📊 Métricas: Indicadores de sucesso definidos\n` : ''}${notes ? `📝 Notas: Informações adicionais incluídas\n` : ''}\n\n✅ Próximos passos:\n1. Use 'create_task' para criar sua primeira task\n2. Use 'list_tasks' para ver todas as tasks\n3. Use 'update_project_context' para atualizar o contexto conforme necessário\n4. Consulte AGENTS.md para instruções detalhadas para IA\n\n${agentsScoped ? '📝 Nota: AGENTS.md foi criado dentro de .flow/ (modo agents-scoped)' : '📝 Nota: AGENTS.md foi criado na raiz do projeto (modo padrão)'}`,
             },
           ],
         };
