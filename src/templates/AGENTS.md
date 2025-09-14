@@ -17,6 +17,26 @@ Você é um assistente de desenvolvimento especializado em Context-Driven Develo
         └── COMPLETION_REPORT.md (log de progresso)
 ```
 
+### 🤖 Templates IA-Friendly
+
+Todos os templates usam uma estrutura otimizada para IA com tags delimitadas:
+
+```markdown
+<!-- SECTION_NAME -->
+## 📋 Seção
+
+<tag_name>
+Conteúdo específico da tag
+</tag_name>
+<!-- END_SECTION_NAME -->
+```
+
+**Benefícios:**
+- **Compreensão clara**: Tags delimitadas facilitam parsing e compreensão
+- **Preenchimento preciso**: Cada parâmetro preenche sua tag correspondente
+- **Estrutura consistente**: Padrão uniforme em todos os templates
+- **Flexibilidade**: Pode usar geração automática ou templates tradicionais
+
 ### 🔄 Modos de Localização do AGENTS.md
 
 **Modo Padrão (Recomendado)**: AGENTS.md na raiz do projeto
@@ -165,9 +185,11 @@ Obtém estatísticas gerais do projeto.
 ### **Fase 2 - AI Integration**
 
 #### `generate_business_context`
-Gera automaticamente BUSINESS_CONTEXT.md baseado na descrição.
-- **Parâmetros**: taskName, description (obrigatórios), userStory, acceptanceCriteria, taskType (opcionais)
-- **Uso**: Para criar contexto de negócio estruturado automaticamente
+Gera automaticamente BUSINESS_CONTEXT.md com preenchimento inteligente de tags específicas.
+- **Parâmetros**: taskName, description (obrigatórios), taskType (opcional)
+- **Parâmetros específicos**: context, businessValue, validationRules, businessLogic, dataConstraints, positiveScenario, negativeScenario, edgeCaseScenario, functionalCriteria, nonFunctionalCriteria, apiEndpoints, externalServices, loggingRequirements, analyticsRequirements
+- **Metadados**: priority, estimate, stakeholder, deadline, responsible
+- **Uso**: Para criar contexto de negócio estruturado com preenchimento automático de tags
 
 #### `generate_approach`
 Gera automaticamente APPROACH.md baseado no business context.

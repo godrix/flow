@@ -11,18 +11,19 @@ const program = new Command();
 program
   .name('flow')
   .description('CLI tool to create structured task contexts with templates')
-  .version('1.4.0');
+  .version('1.5.0');
 
 program
   .argument('<taskName>', 'Name of the task (e.g., task-1234, FEATURE_AUTH)')
   .option('-t, --type <type>', 'Task type: feature, bug, improvement, research', 'feature')
+  .option('--no-auto-generate', 'Use traditional templates instead of auto-generated content')
   .description('Create a new task context with templates')
-  .action(async (taskName: string, options: { type: string }) => {
+  .action(async (taskName: string, options: { type: string; autoGenerate: boolean }) => {
     try {
       console.log(chalk.blue(`🚀 Creating ${options.type} task context for: ${taskName}`));
       
       const currentDir = process.cwd();
-      const result = await createTaskContext(taskName, currentDir, options.type, true, taskName);
+      const result = await createTaskContext(taskName, currentDir, options.type, options.autoGenerate, taskName);
       
       if (result.success) {
         console.log(chalk.green(`✅ Task context created successfully!`));

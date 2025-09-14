@@ -12,7 +12,7 @@ Este workflow cria um ecossistema onde humanos e IA podem colaborar com precisã
 Uma vez que os requisitos estão claros, um plano técnico sólido é criado. O `APPROACH.md` serve como o blueprint de engenharia. Ele detalha a arquitetura, design e um plano de implementação definido. Este documento é nossa referência; não muda durante a execução, garantindo que o plano permaneça como fonte única da verdade.
 
 ### B - Business Context: Definindo o "Porquê" com Precisão
-Toda tarefa começa com uma compreensão profunda de seu propósito. O arquivo `BUSINESS_CONTEXT.md` é nossa fonte de verdade para requisitos, usando sintaxe Gherkin (Given/When/Then) para criar especificações comportamentais que são claras, testáveis e compreendidas por todos.
+Toda tarefa começa com uma compreensão profunda de seu propósito. O arquivo `BUSINESS_CONTEXT.md` é nossa fonte de verdade para requisitos, usando uma estrutura simplificada e IA-friendly com tags delimitadas para criar especificações comportamentais que são claras, testáveis e compreendidas por todos.
 
 ### C - Completion Report: A Evidência do Trabalho Realizado
 O progresso deve ser documentado. O `COMPLETION_REPORT.md` é o registro formal e cronológico do trabalho realizado. Ele conecta as ações tomadas de volta às tarefas planejadas, documenta desvios e serve como prova final de que os objetivos no `BUSINESS_CONTEXT.md` foram atendidos.
@@ -27,7 +27,7 @@ npm install -g @godrix/flow
 
 ### Comandos Básicos
 ```bash
-# Criar uma task
+# Criar uma task (com geração automática de conteúdo)
 npx @godrix/flow <nome-da-tarefa>
 
 # Criar uma task com tipo específico
@@ -36,11 +36,17 @@ npx @godrix/flow BUG_LOGIN_ISSUE --type bug
 npx @godrix/flow IMPROVE_PERFORMANCE --type improvement
 npx @godrix/flow RESEARCH_AI_INTEGRATION --type research
 
+# Criar task com templates tradicionais (sem geração automática)
+npx @godrix/flow FEATURE_AUTH --type feature --no-auto-generate
+
 # Listar todas as tasks
 npx @godrix/flow list
 
 # Validar estrutura de uma task
 npx @godrix/flow validate FEATURE_AUTH
+
+# Inicializar projeto Flow
+npx @godrix/flow init --name "Meu Projeto" --mission "Resolver problema X"
 
 # Iniciar servidor MCP para integração com IA
 npx @godrix/flow mcp
@@ -112,6 +118,14 @@ Cada `XX_nome-da-tarefa` representa uma tarefa específica e isolada. A IA traba
 
 ## 🤖 Integração com IA
 
+### 🎯 Geração Automática de Conteúdo
+O Flow agora gera automaticamente conteúdo inteligente para todos os arquivos de task:
+
+- **Conteúdo Contextualizado**: Baseado no nome da task, descrição e tipo
+- **Templates IA-Friendly**: Estrutura com tags delimitadas para fácil compreensão
+- **Preenchimento Inteligente**: Parâmetros específicos preenchem tags correspondentes
+- **Flexibilidade**: Use geração automática ou templates tradicionais
+
 ### 🚀 MCP Integration (Model Context Protocol)
 O Flow implementa um servidor MCP que permite integração direta com assistentes de IA:
 
@@ -126,11 +140,42 @@ O Flow implementa um servidor MCP que permite integração direta com assistente
 - **get_project_status**: Estatísticas gerais do projeto
 
 **Fase 2 - AI Integration:**
-- **generate_business_context**: Gerar BUSINESS_CONTEXT.md automaticamente
+- **generate_business_context**: Gerar BUSINESS_CONTEXT.md com preenchimento automático de tags
 - **generate_approach**: Gerar APPROACH.md baseado no contexto
 - **generate_completion_report**: Gerar COMPLETION_REPORT.md automaticamente
 - **analyze_codebase**: Analisar estrutura e dependências do projeto
 - **update_project_context**: Atualizar PROJECT_CONTEXT.md com novas informações
+
+#### Parâmetros Específicos para `generate_business_context`:
+```typescript
+{
+  taskName: string,           // Nome da task
+  description: string,        // Descrição geral
+  
+  // Tags específicas (opcionais):
+  context: string,            // → <context>
+  businessValue: string,      // → <business_value>
+  validationRules: string,     // → <validation_rules>
+  businessLogic: string,       // → <business_logic>
+  dataConstraints: string,      // → <data_constraints>
+  positiveScenario: string,     // → <positive_scenario>
+  negativeScenario: string,     // → <negative_scenario>
+  edgeCaseScenario: string,     // → <edge_case_scenario>
+  functionalCriteria: string,   // → <functional_criteria>
+  nonFunctionalCriteria: string, // → <non_functional_criteria>
+  apiEndpoints: string,       // → <api_endpoints>
+  externalServices: string,    // → <external_services>
+  loggingRequirements: string, // → <logging_requirements>
+  analyticsRequirements: string, // → <analytics_requirements>
+  
+  // Metadados:
+  priority: string,           // → {{PRIORITY}}
+  estimate: string,           // → {{ESTIMATE}}
+  stakeholder: string,         // → {{STAKEHOLDER}}
+  deadline: string,           // → {{DEADLINE}}
+  responsible: string,         // → {{RESPONSIBLE}}
+}
+```
 
 #### Configuração Rápida:
 ```json
@@ -287,9 +332,11 @@ Contexto global do projeto com:
 ### BUSINESS_CONTEXT.md
 Requisitos funcionais com:
 - User stories
-- Cenários Gherkin
+- Cenários de teste simplificados
 - Critérios de aceitação
-- Métricas de negócio
+- Regras de negócio
+- Integrações e APIs
+- Logs e Analytics
 
 ### APPROACH.md
 Plano técnico com:

@@ -1,6 +1,6 @@
 {
   "name": "@godrix/flow",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "type": "module",
   "description": "Context-Driven Development CLI: Create structured task contexts with AI-optimized templates for efficient software development workflow",
   "main": "./dist/cli.js",

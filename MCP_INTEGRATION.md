@@ -107,18 +107,39 @@ Qual é o status geral do projeto?
 ### **Fase 2 - AI Integration**
 
 #### 6. `generate_business_context`
-Gera automaticamente o conteúdo do BUSINESS_CONTEXT.md baseado na descrição da task.
+Gera automaticamente o conteúdo do BUSINESS_CONTEXT.md com preenchimento inteligente de tags específicas.
 
 **Parâmetros:**
 - `taskName` (obrigatório): Nome da task
 - `description` (obrigatório): Descrição detalhada do que precisa ser implementado
-- `userStory` (opcional): User story no formato "As a [user], I want [goal], So that [benefit]"
-- `acceptanceCriteria` (opcional): Lista de critérios de aceitação
 - `taskType` (opcional): Tipo da task ("feature", "bug", "improvement", "research")
+
+**Parâmetros específicos para preenchimento de tags (opcionais):**
+- `context`: Descrição do problema atual → `<context>`
+- `businessValue`: Valor de negócio → `<business_value>`
+- `validationRules`: Regras de validação → `<validation_rules>`
+- `businessLogic`: Lógica de negócio → `<business_logic>`
+- `dataConstraints`: Limitações de dados → `<data_constraints>`
+- `positiveScenario`: Cenário positivo → `<positive_scenario>`
+- `negativeScenario`: Cenário negativo → `<negative_scenario>`
+- `edgeCaseScenario`: Caso limite → `<edge_case_scenario>`
+- `functionalCriteria`: Critérios funcionais → `<functional_criteria>`
+- `nonFunctionalCriteria`: Critérios não-funcionais → `<non_functional_criteria>`
+- `apiEndpoints`: Endpoints de API → `<api_endpoints>`
+- `externalServices`: Serviços externos → `<external_services>`
+- `loggingRequirements`: Requisitos de log → `<logging_requirements>`
+- `analyticsRequirements`: Requisitos de analytics → `<analytics_requirements>`
+
+**Metadados (opcionais):**
+- `priority`: Prioridade da task → `{{PRIORITY}}`
+- `estimate`: Estimativa de tempo → `{{ESTIMATE}}`
+- `stakeholder`: Stakeholder responsável → `{{STAKEHOLDER}}`
+- `deadline`: Data limite → `{{DEADLINE}}`
+- `responsible`: Responsável pela implementação → `{{RESPONSIBLE}}`
 
 **Exemplo de uso:**
 ```
-Gere o BUSINESS_CONTEXT para uma task de autenticação de usuários com login e logout
+Gere o BUSINESS_CONTEXT para autenticação com contexto específico sobre segurança e cenários de teste detalhados
 ```
 
 #### 7. `generate_approach`
@@ -305,6 +326,50 @@ npx @godrix/flow validate FEATURE_AUTH
 npx @godrix/flow mcp
 ```
 
+## 🎯 Templates IA-Friendly
+
+### Estrutura com Tags Delimitadas
+Todos os templates agora usam uma estrutura IA-friendly com tags delimitadas:
+
+```markdown
+<!-- SECTION_NAME -->
+## 📋 Seção
+
+<tag_name>
+Conteúdo específico da tag
+</tag_name>
+<!-- END_SECTION_NAME -->
+```
+
+### Benefícios para IA
+- **Compreensão clara**: Tags delimitadas facilitam parsing e compreensão
+- **Preenchimento preciso**: Cada parâmetro preenche sua tag correspondente
+- **Estrutura consistente**: Padrão uniforme em todos os templates
+- **Flexibilidade**: Pode usar geração automática ou templates tradicionais
+
+### Exemplo de Preenchimento
+```typescript
+// Parâmetros fornecidos
+{
+  context: "Sistema atual não possui autenticação",
+  businessValue: "Garantir segurança dos dados",
+  positiveScenario: "Usuário faz login com sucesso"
+}
+
+// Resultado no template
+<context>
+Sistema atual não possui autenticação
+</context>
+
+<business_value>
+Garantir segurança dos dados
+</business_value>
+
+<positive_scenario>
+Usuário faz login com sucesso
+</positive_scenario>
+```
+
 ## 🎯 Benefícios da Integração MCP
 
 ### Para Desenvolvedores
@@ -312,12 +377,14 @@ npx @godrix/flow mcp
 - **Contexto preservado**: IA sempre tem acesso ao estado atual do projeto
 - **Validação automática**: IA pode verificar qualidade das tasks
 - **Relatórios inteligentes**: IA pode gerar análises detalhadas
+- **Preenchimento inteligente**: Tags específicas são preenchidas automaticamente
 
 ### Para IA
 - **Acesso direto**: Não precisa executar comandos externos
 - **Contexto rico**: Acesso completo à estrutura do projeto
 - **Operações atômicas**: Cada operação é bem definida e confiável
 - **Feedback imediato**: Respostas estruturadas e claras
+- **Templates otimizados**: Estrutura IA-friendly para melhor compreensão
 
 ## 🚨 Troubleshooting
 

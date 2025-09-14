@@ -133,14 +133,83 @@ const tools: Tool[] = [
           type: 'string',
           description: 'Detailed description of what needs to be implemented',
         },
-        userStory: {
+        // Tag-specific parameters
+        context: {
           type: 'string',
-          description: 'User story format: As a [user], I want [goal], So that [benefit]',
+          description: 'Context description to fill the <context> tag',
         },
-        acceptanceCriteria: {
-          type: 'array',
-          items: { type: 'string' },
-          description: 'List of acceptance criteria',
+        businessValue: {
+          type: 'string',
+          description: 'Business value to fill the <business_value> tag',
+        },
+        validationRules: {
+          type: 'string',
+          description: 'Validation rules to fill the <validation_rules> tag',
+        },
+        businessLogic: {
+          type: 'string',
+          description: 'Business logic to fill the <business_logic> tag',
+        },
+        dataConstraints: {
+          type: 'string',
+          description: 'Data constraints to fill the <data_constraints> tag',
+        },
+        positiveScenario: {
+          type: 'string',
+          description: 'Positive scenario to fill the <positive_scenario> tag',
+        },
+        negativeScenario: {
+          type: 'string',
+          description: 'Negative scenario to fill the <negative_scenario> tag',
+        },
+        edgeCaseScenario: {
+          type: 'string',
+          description: 'Edge case scenario to fill the <edge_case_scenario> tag',
+        },
+        functionalCriteria: {
+          type: 'string',
+          description: 'Functional criteria to fill the <functional_criteria> tag',
+        },
+        nonFunctionalCriteria: {
+          type: 'string',
+          description: 'Non-functional criteria to fill the <non_functional_criteria> tag',
+        },
+        apiEndpoints: {
+          type: 'string',
+          description: 'API endpoints to fill the <api_endpoints> tag',
+        },
+        externalServices: {
+          type: 'string',
+          description: 'External services to fill the <external_services> tag',
+        },
+        loggingRequirements: {
+          type: 'string',
+          description: 'Logging requirements to fill the <logging_requirements> tag',
+        },
+        analyticsRequirements: {
+          type: 'string',
+          description: 'Analytics requirements to fill the <analytics_requirements> tag',
+        },
+        // Generic parameters
+        priority: {
+          type: 'string',
+          description: 'Task priority',
+        },
+        estimate: {
+          type: 'string',
+          description: 'Task estimate',
+        },
+        stakeholder: {
+          type: 'string',
+          description: 'Task stakeholder',
+        },
+        deadline: {
+          type: 'string',
+          description: 'Task deadline',
+        },
+        responsible: {
+          type: 'string',
+          description: 'Task responsible',
         },
         taskType: {
           type: 'string',
@@ -1089,6 +1158,31 @@ ${taskType === 'bug' ? 'Corrigir o bug reportado e garantir que não há regress
 **Próxima revisão**: A definir`;
 }
 
+function fillTemplateTags(templateContent: string, tagValues: Record<string, string>): string {
+  let filledContent = templateContent;
+  
+  // Substituir valores específicos das tags
+  for (const [tagName, value] of Object.entries(tagValues)) {
+    if (value && value.trim()) {
+      // Procurar pela tag específica e substituir o conteúdo
+      const tagRegex = new RegExp(`<${tagName}>[\\s\\S]*?</${tagName}>`, 'g');
+      const replacement = `<${tagName}>\n${value.trim()}\n</${tagName}>`;
+      filledContent = filledContent.replace(tagRegex, replacement);
+    }
+  }
+  
+  // Substituir placeholders genéricos
+  filledContent = filledContent.replace(/\{\{TASK_NAME\}\}/g, tagValues.taskName || '{{TASK_NAME}}');
+  filledContent = filledContent.replace(/\{\{PRIORITY\}\}/g, tagValues.priority || '{{PRIORITY}}');
+  filledContent = filledContent.replace(/\{\{ESTIMATE\}\}/g, tagValues.estimate || '{{ESTIMATE}}');
+  filledContent = filledContent.replace(/\{\{STAKEHOLDER\}\}/g, tagValues.stakeholder || '{{STAKEHOLDER}}');
+  filledContent = filledContent.replace(/\{\{DEADLINE\}\}/g, tagValues.deadline || '{{DEADLINE}}');
+  filledContent = filledContent.replace(/\{\{LAST_UPDATE\}\}/g, new Date().toISOString().split('T')[0]);
+  filledContent = filledContent.replace(/\{\{RESPONSIBLE\}\}/g, tagValues.responsible || '{{RESPONSIBLE}}');
+  
+  return filledContent;
+}
+
 // Call tool handler
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
@@ -1507,37 +1601,91 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'generate_business_context': {
-        const { taskName, description, userStory, acceptanceCriteria = [], taskType = 'feature' } = args as {
+        const { 
+          taskName, 
+          description, 
+          context,
+          businessValue,
+          validationRules,
+          businessLogic,
+          dataConstraints,
+          positiveScenario,
+          negativeScenario,
+          edgeCaseScenario,
+          functionalCriteria,
+          nonFunctionalCriteria,
+          apiEndpoints,
+          externalServices,
+          loggingRequirements,
+          analyticsRequirements,
+          priority,
+          estimate,
+          stakeholder,
+          deadline,
+          responsible,
+          taskType = 'feature' 
+        } = args as {
           taskName: string;
           description: string;
-          userStory?: string;
-          acceptanceCriteria?: string[];
+          context?: string;
+          businessValue?: string;
+          validationRules?: string;
+          businessLogic?: string;
+          dataConstraints?: string;
+          positiveScenario?: string;
+          negativeScenario?: string;
+          edgeCaseScenario?: string;
+          functionalCriteria?: string;
+          nonFunctionalCriteria?: string;
+          apiEndpoints?: string;
+          externalServices?: string;
+          loggingRequirements?: string;
+          analyticsRequirements?: string;
+          priority?: string;
+          estimate?: string;
+          stakeholder?: string;
+          deadline?: string;
+          responsible?: string;
           taskType?: string;
         };
 
-        // Use the helper function to generate content
-        const businessContextContent = generateBusinessContextContent(taskName, description, taskType);
+        // Read the template file
+        const templatePath = path.join(__dirname, 'templates', 'BUSINESS_CONTEXT.md');
+        let templateContent = '';
         
-        // If user provided custom user story, replace it
-        let finalContent = businessContextContent;
-        if (userStory) {
-          finalContent = finalContent.replace(
-            /### User Story Principal\n.*?\n\*\*Para que\*\*.*/s,
-            `### User Story Principal\n${userStory}`
-          );
+        try {
+          templateContent = await fs.readFile(templatePath, 'utf-8');
+        } catch (error) {
+          // Fallback to generated content if template not found
+          templateContent = generateBusinessContextContent(taskName, description, taskType);
         }
-        
-        // If user provided custom acceptance criteria, add them
-        if (acceptanceCriteria.length > 0) {
-          const customCriteria = acceptanceCriteria.map((criteria, index) => 
-            `- [ ] **AC${index + 1}**: ${criteria}`
-          ).join('\n');
-          
-          finalContent = finalContent.replace(
-            /### Funcionalidade Principal\n- \[ \] A funcionalidade deve executar conforme especificado.*?- \[ \] Deve funcionar em diferentes navegadores\/dispositivos/s,
-            `### Funcionalidade Principal\n${customCriteria}`
-          );
-        }
+
+        // Fill template with provided values
+        const tagValues: Record<string, string> = {
+          taskName,
+          description,
+          context: context || description,
+          businessValue: businessValue || '',
+          validationRules: validationRules || '',
+          businessLogic: businessLogic || '',
+          dataConstraints: dataConstraints || '',
+          positiveScenario: positiveScenario || '',
+          negativeScenario: negativeScenario || '',
+          edgeCaseScenario: edgeCaseScenario || '',
+          functionalCriteria: functionalCriteria || '',
+          nonFunctionalCriteria: nonFunctionalCriteria || '',
+          apiEndpoints: apiEndpoints || '',
+          externalServices: externalServices || '',
+          loggingRequirements: loggingRequirements || '',
+          analyticsRequirements: analyticsRequirements || '',
+          priority: priority || '',
+          estimate: estimate || '',
+          stakeholder: stakeholder || '',
+          deadline: deadline || '',
+          responsible: responsible || '',
+        };
+
+        const finalContent = fillTemplateTags(templateContent, tagValues);
 
         return {
           content: [

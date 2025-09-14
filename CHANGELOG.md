@@ -5,6 +5,35 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.5.0] - 2024-12-19
+
+### 🚀 Adicionado
+- **Geração Automática de Conteúdo**: Todos os arquivos de task agora são gerados automaticamente com conteúdo inteligente
+- **Templates IA-Friendly**: Estrutura com tags delimitadas para melhor compreensão por IAs
+- **Preenchimento Inteligente de Tags**: Parâmetros específicos preenchem tags correspondentes nos templates
+- **Função `fillTemplateTags()`**: Nova função para preencher templates com valores específicos
+- **Parâmetros Específicos MCP**: Novos parâmetros para `generate_business_context` com tags específicas
+- **Opção `--no-auto-generate`**: CLI permite usar templates tradicionais ao invés de geração automática
+
+### 🔄 Mudado
+- **BUSINESS_CONTEXT.md**: Simplificado, removido Gherkin complexo, adicionada estrutura mais prática
+- **Cenários de Teste**: Substituídos por estrutura mais simples e direta
+- **Templates**: Todos os templates agora usam estrutura IA-friendly com tags delimitadas
+- **Geração de Conteúdo**: Baseada em contexto, descrição e tipo de task
+- **MCP Schema**: Atualizado com parâmetros específicos para cada tag
+
+### 📚 Documentação
+- **README.md**: Atualizado com informações sobre geração automática e templates IA-friendly
+- **MCP_INTEGRATION.md**: Adicionada seção sobre templates IA-friendly e novos parâmetros
+- **AGENTS.md**: Atualizado com informações sobre estrutura IA-friendly
+- **Exemplos**: Incluídos exemplos de preenchimento automático de tags
+
+### ✅ Melhorias
+- **Compreensão IA**: Tags delimitadas facilitam parsing e compreensão por IAs
+- **Flexibilidade**: Suporte tanto para geração automática quanto templates tradicionais
+- **Precisão**: Preenchimento específico de tags baseado em parâmetros fornecidos
+- **Consistência**: Estrutura uniforme em todos os templates
+
 ## [1.4.0] - 2024-12-19
 
 ### 🚀 Adicionado
