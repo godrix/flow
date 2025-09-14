@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "flow": {
+      "command": "npx",
+      "args": ["@godrix/flow", "mcp"],
+      "env": {}
+    }
+  }
+}

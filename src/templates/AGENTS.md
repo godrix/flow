@@ -109,6 +109,95 @@ Você é um assistente de desenvolvimento especializado em Context-Driven Develo
 - Execute testes conforme especificado no APPROACH.md
 - Documente métricas de qualidade quando aplicável
 
+## 🤖 Ferramentas MCP Disponíveis
+
+### **IMPORTANTE**: Integração com Model Context Protocol (MCP)
+Este projeto implementa um servidor MCP que expõe ferramentas específicas para assistentes de IA. Se você tem acesso a essas ferramentas, use-as para automatizar tarefas de desenvolvimento.
+
+### **Fase 1 - Core Features**
+
+#### `create_task`
+Cria uma nova task com templates estruturados.
+- **Parâmetros**: taskName (obrigatório), taskType (opcional: feature/bug/improvement/research)
+- **Uso**: Para criar novas tasks automaticamente
+
+#### `list_tasks`
+Lista todas as tasks existentes no projeto.
+- **Parâmetros**: Nenhum
+- **Uso**: Para verificar tasks existentes e status
+
+#### `validate_task`
+Valida a estrutura de uma task específica.
+- **Parâmetros**: taskName (obrigatório)
+- **Uso**: Para verificar qualidade e estrutura das tasks
+
+#### `get_task_info`
+Obtém informações detalhadas sobre uma task específica.
+- **Parâmetros**: taskName (obrigatório)
+- **Uso**: Para analisar conteúdo de tasks específicas
+
+#### `get_project_status`
+Obtém estatísticas gerais do projeto.
+- **Parâmetros**: Nenhum
+- **Uso**: Para análise de progresso geral
+
+### **Fase 2 - AI Integration**
+
+#### `generate_business_context`
+Gera automaticamente BUSINESS_CONTEXT.md baseado na descrição.
+- **Parâmetros**: taskName, description (obrigatórios), userStory, acceptanceCriteria, taskType (opcionais)
+- **Uso**: Para criar contexto de negócio estruturado automaticamente
+
+#### `generate_approach`
+Gera automaticamente APPROACH.md baseado no business context.
+- **Parâmetros**: taskName, businessContext (obrigatórios), techStack, architecture (opcionais)
+- **Uso**: Para criar plano técnico baseado no contexto de negócio
+
+#### `generate_completion_report`
+Gera automaticamente COMPLETION_REPORT.md baseado no trabalho realizado.
+- **Parâmetros**: taskName, workDone (obrigatórios), issuesFound, deviations, metrics (opcionais)
+- **Uso**: Para documentar conclusão de tasks automaticamente
+
+#### `analyze_codebase`
+Analisa o codebase atual para entender estrutura e dependências.
+- **Parâmetros**: path, includePatterns, excludePatterns (opcionais)
+- **Uso**: Para entender arquitetura e tecnologias do projeto
+
+#### `update_project_context`
+Atualiza o PROJECT_CONTEXT.md com novas informações ou cria se não existir.
+- **Parâmetros**: mission, goals, techStack, architecture, standards, tools, metrics, notes (todos opcionais)
+- **Uso**: Para manter o contexto global do projeto sempre atualizado
+
+#### `init_flow_project`
+Inicializa um novo projeto Flow com diretório .flow e PROJECT_CONTEXT.md.
+- **Parâmetros**: projectName, mission, goals, techStack, architecture, standards, tools, metrics, notes (todos opcionais)
+- **Uso**: Para criar um novo projeto Flow do zero
+
+### **Workflow Recomendado com MCP**
+
+#### **Para Novos Projetos:**
+```
+1. init_flow_project → Inicializar projeto Flow
+2. create_task → Criar primeira task
+3. generate_business_context → Definir requisitos
+4. generate_approach → Planejar implementação
+5. [Desenvolvimento manual]
+6. generate_completion_report → Documentar conclusão
+7. validate_task → Validar qualidade
+```
+
+#### **Para Projetos Existentes:**
+```
+1. analyze_codebase → Entender projeto atual
+2. update_project_context → Atualizar contexto global (se necessário)
+3. create_task → Criar nova task
+4. generate_business_context → Definir requisitos
+5. generate_approach → Planejar implementação
+6. [Desenvolvimento manual]
+7. generate_completion_report → Documentar conclusão
+8. validate_task → Validar qualidade
+```
+
 ## 🔗 Referenciando Outras Tasks
 
 ### Quando Referenciar Outras Tasks

@@ -25,24 +25,40 @@ npm install -g @godrix/flow
 
 ## 💻 Uso
 
+### Comandos Básicos
 ```bash
+# Criar uma task
 npx @godrix/flow <nome-da-tarefa>
+
+# Criar uma task com tipo específico
+npx @godrix/flow FEATURE_AUTH --type feature
+npx @godrix/flow BUG_LOGIN_ISSUE --type bug
+npx @godrix/flow IMPROVE_PERFORMANCE --type improvement
+npx @godrix/flow RESEARCH_AI_INTEGRATION --type research
+
+# Listar todas as tasks
+npx @godrix/flow list
+
+# Validar estrutura de uma task
+npx @godrix/flow validate FEATURE_AUTH
+
+# Iniciar servidor MCP para integração com IA
+npx @godrix/flow mcp
 ```
 
 ### Exemplos
-
 ```bash
 # Criar uma tarefa com nome task-1234
 npx @godrix/flow task-1234
 
 # Criar uma tarefa de feature
-npx @godrix/flow FEATURE_AUTH
+npx @godrix/flow FEATURE_AUTH --type feature
 
 # Criar uma tarefa de correção de bug
-npx @godrix/flow BUG_LOGIN_ISSUE
+npx @godrix/flow BUG_LOGIN_ISSUE --type bug
 
 # Criar uma tarefa de melhoria
-npx @godrix/flow IMPROVE_PERFORMANCE
+npx @godrix/flow IMPROVE_PERFORMANCE --type improvement
 ```
 
 ## 📁 Estrutura Criada
@@ -96,6 +112,92 @@ Cada `XX_nome-da-tarefa` representa uma tarefa específica e isolada. A IA traba
 - **C**ompletion Report: Evidência do trabalho realizado
 
 ## 🤖 Integração com IA
+
+### 🚀 MCP Integration (Model Context Protocol)
+O Flow implementa um servidor MCP que permite integração direta com assistentes de IA:
+
+#### Ferramentas Disponíveis via MCP:
+
+**Fase 1 - Core Features:**
+- **init_flow_project**: Inicializar novo projeto Flow
+- **create_task**: Criar tasks com templates estruturados
+- **list_tasks**: Listar todas as tasks do projeto
+- **validate_task**: Validar estrutura de tasks específicas
+- **get_task_info**: Obter informações detalhadas de tasks
+- **get_project_status**: Estatísticas gerais do projeto
+
+**Fase 2 - AI Integration:**
+- **generate_business_context**: Gerar BUSINESS_CONTEXT.md automaticamente
+- **generate_approach**: Gerar APPROACH.md baseado no contexto
+- **generate_completion_report**: Gerar COMPLETION_REPORT.md automaticamente
+- **analyze_codebase**: Analisar estrutura e dependências do projeto
+- **update_project_context**: Atualizar PROJECT_CONTEXT.md com novas informações
+
+#### Configuração Rápida:
+```json
+{
+  "mcpServers": {
+    "flow": {
+      "command": "npx",
+      "args": ["@godrix/flow", "mcp"]
+    }
+  }
+}
+```
+
+#### Exemplo de Workflow Completo com IA:
+
+**Para Novos Projetos:**
+```
+1. IA: "Inicialize um novo projeto Flow para e-commerce"
+   → init_flow_project() - Cria estrutura completa
+
+2. IA: "Crie uma task para implementar autenticação"
+   → create_task("FEATURE_AUTH", "feature") - Cria estrutura
+
+3. IA: "Gere o BUSINESS_CONTEXT baseado na descrição"
+   → generate_business_context() - Cria requisitos estruturados
+
+4. IA: "Gere o APPROACH baseado no contexto"
+   → generate_approach() - Cria plano técnico
+
+5. IA: "Após implementar, gere o COMPLETION_REPORT"
+   → generate_completion_report() - Documenta conclusão
+
+6. IA: "Valide a qualidade da task"
+   → validate_task() - Verifica estrutura
+```
+
+**Para Projetos Existentes:**
+```
+1. IA: "Analise o codebase do projeto"
+   → analyze_codebase() - Entende estrutura e tecnologias
+
+2. IA: "Atualize o contexto do projeto com as tecnologias encontradas"
+   → update_project_context() - Mantém contexto global atualizado
+
+3. IA: "Crie uma task para implementar autenticação"
+   → create_task("FEATURE_AUTH", "feature") - Cria estrutura
+
+4. IA: "Gere o BUSINESS_CONTEXT baseado na descrição"
+   → generate_business_context() - Cria requisitos estruturados
+
+5. IA: "Gere o APPROACH baseado no contexto"
+   → generate_approach() - Cria plano técnico
+
+6. IA: "Após implementar, gere o COMPLETION_REPORT"
+   → generate_completion_report() - Documenta conclusão
+
+7. IA: "Valide a qualidade da task"
+   → validate_task() - Verifica estrutura
+```
+
+#### Benefícios da Integração MCP:
+- **Automação completa** do ciclo de desenvolvimento
+- **Documentação automática** de alta qualidade
+- **Análise inteligente** do codebase
+- **Templates personalizados** baseados em contexto
+- **Validação automática** de qualidade
 
 ### Templates Otimizados para IA
 - **Prompts estruturados** seguindo melhores práticas

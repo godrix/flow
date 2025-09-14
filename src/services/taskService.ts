@@ -13,7 +13,7 @@ export interface TaskCreationResult {
   error?: string;
 }
 
-export async function createTaskContext(taskName: string, projectPath: string): Promise<TaskCreationResult> {
+export async function createTaskContext(taskName: string, projectPath: string, taskType: string = 'feature'): Promise<TaskCreationResult> {
   try {
     // Criar pasta .flow se não existir
     const flowDir = path.join(projectPath, '.flow');
@@ -56,7 +56,7 @@ export async function createTaskContext(taskName: string, projectPath: string): 
       
       if (await fs.pathExists(templatePath)) {
         const templateContent = await fs.readFile(templatePath, 'utf-8');
-        const processedContent = replaceTemplateVariables(templateContent, taskName);
+        const processedContent = replaceTemplateVariables(templateContent, taskName, taskType);
         await fs.writeFile(targetPath, processedContent);
         filesCreated.push(template);
       }
@@ -76,8 +76,46 @@ export async function createTaskContext(taskName: string, projectPath: string): 
   }
 }
 
-function replaceTemplateVariables(content: string, taskName: string): string {
-  return content.replace(/\{\{TASK_NAME\}\}/g, taskName);
+function replaceTemplateVariables(content: string, taskName: string, taskType: string = 'feature'): string {
+  let processedContent = content.replace(/\{\{TASK_NAME\}\}/g, taskName);
+  processedContent = processedContent.replace(/\{\{TASK_TYPE\}\}/g, taskType);
+  
+  // Add type-specific content
+  const typeConfig = {
+    feature: {
+      icon: '✨',
+      description: 'Nova funcionalidade',
+      priority: 'Alta',
+      category: 'Feature'
+    },
+    bug: {
+      icon: '🐛',
+      description: 'Correção de bug',
+      priority: 'Crítica',
+      category: 'Bug Fix'
+    },
+    improvement: {
+      icon: '🔧',
+      description: 'Melhoria de funcionalidade existente',
+      priority: 'Média',
+      category: 'Improvement'
+    },
+    research: {
+      icon: '🔬',
+      description: 'Pesquisa e investigação',
+      priority: 'Baixa',
+      category: 'Research'
+    }
+  };
+  
+  const config = typeConfig[taskType as keyof typeof typeConfig] || typeConfig.feature;
+  
+  processedContent = processedContent.replace(/\{\{TASK_ICON\}\}/g, config.icon);
+  processedContent = processedContent.replace(/\{\{TASK_DESCRIPTION\}\}/g, config.description);
+  processedContent = processedContent.replace(/\{\{TASK_PRIORITY\}\}/g, config.priority);
+  processedContent = processedContent.replace(/\{\{TASK_CATEGORY\}\}/g, config.category);
+  
+  return processedContent;
 }
 
 async function getNextTaskNumber(flowDir: string): Promise<number> {
