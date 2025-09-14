@@ -443,3 +443,5 @@ MIT License - veja [LICENSE](./LICENSE) para detalhes.
 ---
 
 **Desenvolvido com ❤️ para melhorar a colaboração entre humanos e IA no desenvolvimento de software.**
+
+👨‍💻🤝🤖 *"A humanidade é uma coisa boa; a IA é apenas uma extensão dela."*
