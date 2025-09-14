@@ -5,6 +5,19 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.3.2] - 2024-12-19
+
+### 🐛 Corrigido
+- **Diretório de Trabalho**: Adicionado parâmetro `workingDirectory` a todas as ferramentas MCP
+- **Problema Crítico**: MCP criava arquivos no diretório do Flow em vez do projeto do usuário
+- **Solução**: Todas as ferramentas agora aceitam `workingDirectory` para especificar o diretório correto
+- **Impacto**: Comando `init_flow_project` agora cria `.flow` no diretório correto do projeto
+
+### 📚 Documentação
+- **AGENTS.md**: Adicionada seção explicativa sobre o uso do `workingDirectory`
+- **Exemplos**: Incluídos exemplos de uso correto e incorreto do parâmetro
+- **Workflow**: Atualizado workflow recomendado com uso do `workingDirectory`
+
 ## [1.3.1] - 2024-12-19
 
 ### 🐛 Corrigido

@@ -14,7 +14,7 @@ import path from 'path';
 const server = new Server(
   {
     name: 'flow-mcp-server',
-    version: '1.2.0',
+    version: '1.3.2',
   },
   {
     capabilities: {
@@ -41,6 +41,10 @@ const tools: Tool[] = [
           description: 'Type of task to create',
           default: 'feature',
         },
+        workingDirectory: {
+          type: 'string',
+          description: 'Working directory where the task should be created (defaults to current directory)',
+        },
       },
       required: ['taskName'],
     },
@@ -50,7 +54,12 @@ const tools: Tool[] = [
     description: 'List all existing tasks in the current project',
     inputSchema: {
       type: 'object',
-      properties: {},
+      properties: {
+        workingDirectory: {
+          type: 'string',
+          description: 'Working directory to list tasks from (defaults to current directory)',
+        },
+      },
     },
   },
   {
@@ -62,6 +71,10 @@ const tools: Tool[] = [
         taskName: {
           type: 'string',
           description: 'Name of the task to validate',
+        },
+        workingDirectory: {
+          type: 'string',
+          description: 'Working directory to validate task from (defaults to current directory)',
         },
       },
       required: ['taskName'],
@@ -77,6 +90,10 @@ const tools: Tool[] = [
           type: 'string',
           description: 'Name of the task to get information about',
         },
+        workingDirectory: {
+          type: 'string',
+          description: 'Working directory to get task info from (defaults to current directory)',
+        },
       },
       required: ['taskName'],
     },
@@ -86,7 +103,12 @@ const tools: Tool[] = [
     description: 'Get overall project status and statistics',
     inputSchema: {
       type: 'object',
-      properties: {},
+      properties: {
+        workingDirectory: {
+          type: 'string',
+          description: 'Working directory to get project status from (defaults to current directory)',
+        },
+      },
     },
   },
   {
@@ -212,6 +234,10 @@ const tools: Tool[] = [
           description: 'File patterns to exclude from analysis',
           default: ['node_modules/**', 'dist/**', 'build/**', '.git/**'],
         },
+        workingDirectory: {
+          type: 'string',
+          description: 'Working directory to analyze from (defaults to current directory)',
+        },
       },
     },
   },
@@ -282,6 +308,10 @@ const tools: Tool[] = [
         notes: {
           type: 'string',
           description: 'Additional notes or context about the project',
+        },
+        workingDirectory: {
+          type: 'string',
+          description: 'Working directory to update project context in (defaults to current directory)',
         },
       },
     },
@@ -358,6 +388,10 @@ const tools: Tool[] = [
           type: 'string',
           description: 'Additional project notes',
         },
+        workingDirectory: {
+          type: 'string',
+          description: 'Working directory where the project should be initialized (defaults to current directory)',
+        },
       },
     },
   },
@@ -375,8 +409,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   try {
     switch (name) {
       case 'create_task': {
-        const { taskName, taskType = 'feature' } = args as { taskName: string; taskType?: string };
-        const currentDir = process.cwd();
+        const { taskName, taskType = 'feature', workingDirectory } = args as { taskName: string; taskType?: string; workingDirectory?: string };
+        const currentDir = workingDirectory ? path.resolve(workingDirectory) : process.cwd();
         const result = await createTaskContext(taskName, currentDir, taskType);
         
         if (result.success) {
@@ -405,7 +439,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'list_tasks': {
-        const currentDir = process.cwd();
+        const { workingDirectory } = args as { workingDirectory?: string };
+        const currentDir = workingDirectory ? path.resolve(workingDirectory) : process.cwd();
         const flowDir = path.join(currentDir, '.flow');
         
         if (!(await fs.pathExists(flowDir))) {
@@ -484,8 +519,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'validate_task': {
-        const { taskName } = args as { taskName: string };
-        const currentDir = process.cwd();
+        const { taskName, workingDirectory } = args as { taskName: string; workingDirectory?: string };
+        const currentDir = workingDirectory ? path.resolve(workingDirectory) : process.cwd();
         const flowDir = path.join(currentDir, '.flow');
         
         if (!(await fs.pathExists(flowDir))) {
@@ -595,8 +630,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'get_task_info': {
-        const { taskName } = args as { taskName: string };
-        const currentDir = process.cwd();
+        const { taskName, workingDirectory } = args as { taskName: string; workingDirectory?: string };
+        const currentDir = workingDirectory ? path.resolve(workingDirectory) : process.cwd();
         const flowDir = path.join(currentDir, '.flow');
         
         if (!(await fs.pathExists(flowDir))) {
@@ -663,7 +698,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case 'get_project_status': {
-        const currentDir = process.cwd();
+        const { workingDirectory } = args as { workingDirectory?: string };
+        const currentDir = workingDirectory ? path.resolve(workingDirectory) : process.cwd();
         const flowDir = path.join(currentDir, '.flow');
         
         if (!(await fs.pathExists(flowDir))) {
@@ -1306,13 +1342,14 @@ A funcionalidade foi implementada com sucesso conforme especificado. ${workDone.
       }
 
       case 'analyze_codebase': {
-        const { path: analyzePath = '.', includePatterns = ['**/*.ts', '**/*.js', '**/*.tsx', '**/*.jsx'], excludePatterns = ['node_modules/**', 'dist/**', 'build/**', '.git/**'] } = args as {
+        const { path: analyzePath = '.', includePatterns = ['**/*.ts', '**/*.js', '**/*.tsx', '**/*.jsx'], excludePatterns = ['node_modules/**', 'dist/**', 'build/**', '.git/**'], workingDirectory } = args as {
           path?: string;
           includePatterns?: string[];
           excludePatterns?: string[];
+          workingDirectory?: string;
         };
 
-        const currentDir = process.cwd();
+        const currentDir = workingDirectory ? path.resolve(workingDirectory) : process.cwd();
         const targetPath = path.resolve(currentDir, analyzePath);
 
         if (!(await fs.pathExists(targetPath))) {
@@ -1466,7 +1503,7 @@ A funcionalidade foi implementada com sucesso conforme especificado. ${workDone.
       }
 
       case 'update_project_context': {
-        const { mission, goals, techStack, architecture, standards, tools, metrics, notes } = args as {
+        const { mission, goals, techStack, architecture, standards, tools, metrics, notes, workingDirectory } = args as {
           mission?: string;
           goals?: string[];
           techStack?: Array<{ category: string; technology: string; version?: string; justification?: string }>;
@@ -1475,9 +1512,10 @@ A funcionalidade foi implementada com sucesso conforme especificado. ${workDone.
           tools?: { development?: string[]; monitoring?: string[]; ci_cd?: string[] };
           metrics?: { technical?: any; business?: any };
           notes?: string;
+          workingDirectory?: string;
         };
 
-        const currentDir = process.cwd();
+        const currentDir = workingDirectory ? path.resolve(workingDirectory) : process.cwd();
         const flowDir = path.join(currentDir, '.flow');
         const projectContextPath = path.join(flowDir, 'PROJECT_CONTEXT.md');
 
@@ -1709,7 +1747,7 @@ Este documento deve ser atualizado quando:
       }
 
       case 'init_flow_project': {
-        const { projectName, mission, goals, techStack, architecture, standards, tools, metrics, notes } = args as {
+        const { projectName, mission, goals, techStack, architecture, standards, tools, metrics, notes, workingDirectory } = args as {
           projectName?: string;
           mission?: string;
           goals?: string[];
@@ -1719,9 +1757,10 @@ Este documento deve ser atualizado quando:
           tools?: { development?: string[]; monitoring?: string[]; ci_cd?: string[] };
           metrics?: { technical?: any; business?: any };
           notes?: string;
+          workingDirectory?: string;
         };
 
-        const currentDir = process.cwd();
+        const currentDir = workingDirectory ? path.resolve(workingDirectory) : process.cwd();
         const flowDir = path.join(currentDir, '.flow');
         const projectContextPath = path.join(flowDir, 'PROJECT_CONTEXT.md');
         const currentDate = new Date().toISOString().split('T')[0];

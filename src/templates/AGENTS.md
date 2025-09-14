@@ -118,28 +118,33 @@ Este projeto implementa um servidor MCP que expõe ferramentas específicas para
 
 #### `create_task`
 Cria uma nova task com templates estruturados.
-- **Parâmetros**: taskName (obrigatório), taskType (opcional: feature/bug/improvement/research)
+- **Parâmetros**: taskName (obrigatório), taskType (opcional: feature/bug/improvement/research), workingDirectory (opcional)
 - **Uso**: Para criar novas tasks automaticamente
+- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
 
 #### `list_tasks`
 Lista todas as tasks existentes no projeto.
-- **Parâmetros**: Nenhum
+- **Parâmetros**: workingDirectory (opcional)
 - **Uso**: Para verificar tasks existentes e status
+- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
 
 #### `validate_task`
 Valida a estrutura de uma task específica.
-- **Parâmetros**: taskName (obrigatório)
+- **Parâmetros**: taskName (obrigatório), workingDirectory (opcional)
 - **Uso**: Para verificar qualidade e estrutura das tasks
+- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
 
 #### `get_task_info`
 Obtém informações detalhadas sobre uma task específica.
-- **Parâmetros**: taskName (obrigatório)
+- **Parâmetros**: taskName (obrigatório), workingDirectory (opcional)
 - **Uso**: Para analisar conteúdo de tasks específicas
+- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
 
 #### `get_project_status`
 Obtém estatísticas gerais do projeto.
-- **Parâmetros**: Nenhum
+- **Parâmetros**: workingDirectory (opcional)
 - **Uso**: Para análise de progresso geral
+- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
 
 ### **Fase 2 - AI Integration**
 
@@ -160,18 +165,41 @@ Gera automaticamente COMPLETION_REPORT.md baseado no trabalho realizado.
 
 #### `analyze_codebase`
 Analisa o codebase atual para entender estrutura e dependências.
-- **Parâmetros**: path, includePatterns, excludePatterns (opcionais)
+- **Parâmetros**: path, includePatterns, excludePatterns, workingDirectory (opcionais)
 - **Uso**: Para entender arquitetura e tecnologias do projeto
+- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
 
 #### `update_project_context`
 Atualiza o PROJECT_CONTEXT.md com novas informações ou cria se não existir.
-- **Parâmetros**: mission, goals, techStack, architecture, standards, tools, metrics, notes (todos opcionais)
+- **Parâmetros**: mission, goals, techStack, architecture, standards, tools, metrics, notes, workingDirectory (todos opcionais)
 - **Uso**: Para manter o contexto global do projeto sempre atualizado
+- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
 
 #### `init_flow_project`
 Inicializa um novo projeto Flow com diretório .flow e PROJECT_CONTEXT.md.
-- **Parâmetros**: projectName, mission, goals, techStack, architecture, standards, tools, metrics, notes (todos opcionais)
+- **Parâmetros**: projectName, mission, goals, techStack, architecture, standards, tools, metrics, notes, workingDirectory (todos opcionais)
 - **Uso**: Para criar um novo projeto Flow do zero
+- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
+
+### **⚠️ IMPORTANTE: Parâmetro `workingDirectory`**
+
+**Problema Identificado**: O MCP server roda no diretório do próprio Flow (`/Users/caggodri/Documents/flow`) em vez do diretório do projeto do usuário.
+
+**Solução**: Use o parâmetro `workingDirectory` em todas as ferramentas MCP para especificar o diretório correto do projeto.
+
+**Exemplo de Uso**:
+```javascript
+// ❌ INCORRETO - Cria no diretório do Flow
+create_task({ taskName: "FEATURE_AUTH" })
+
+// ✅ CORRETO - Cria no diretório do projeto
+create_task({ 
+  taskName: "FEATURE_AUTH", 
+  workingDirectory: "/Users/caggodri/Documents/Repos/ms-ags-treatment-support" 
+})
+```
+
+**Diretório Padrão**: Se não especificar `workingDirectory`, as ferramentas usarão o diretório atual onde o MCP server está rodando.
 
 ### **Workflow Recomendado com MCP**
 
