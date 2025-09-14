@@ -176,9 +176,10 @@ Atualiza o PROJECT_CONTEXT.md com novas informações ou cria se não existir.
 - **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
 
 #### `init_flow_project`
-Inicializa um novo projeto Flow com diretório .flow e PROJECT_CONTEXT.md.
+Inicializa um novo projeto Flow com diretório .flow, PROJECT_CONTEXT.md e AGENTS.md.
 - **Parâmetros**: projectName, mission, goals, techStack, architecture, standards, tools, metrics, notes, workingDirectory (todos opcionais)
 - **Uso**: Para criar um novo projeto Flow do zero
+- **Arquivos Criados**: `.flow/`, `PROJECT_CONTEXT.md`, `AGENTS.md`, `.gitignore`
 - **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
 
 ### **⚠️ IMPORTANTE: Parâmetro `workingDirectory`**

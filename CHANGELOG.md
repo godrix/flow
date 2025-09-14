@@ -5,6 +5,23 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.3.3] - 2024-12-19
+
+### 🐛 Corrigido
+- **AGENTS.md**: `init_flow_project` agora cria o arquivo AGENTS.md automaticamente
+- **Template**: Copia o template completo de AGENTS.md para o projeto
+- **Fallback**: Se template não encontrado, cria versão básica do AGENTS.md
+- **Gitignore**: Atualizado para incluir AGENTS.md no controle de versão
+
+### 📚 Documentação
+- **AGENTS.md**: Atualizada descrição do `init_flow_project` para mencionar AGENTS.md
+- **Arquivos Criados**: Documentados todos os arquivos criados pelo `init_flow_project`
+
+### ✅ Testado
+- **Funcionalidade**: Testado criação completa do AGENTS.md
+- **Template**: Verificado que template completo é copiado corretamente
+- **Estrutura**: Confirmado que todos os arquivos são criados no diretório correto
+
 ## [1.3.2] - 2024-12-19
 
 ### 🐛 Corrigido

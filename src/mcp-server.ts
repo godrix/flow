@@ -318,7 +318,7 @@ const tools: Tool[] = [
   },
   {
     name: 'init_flow_project',
-    description: 'Initialize a new Flow project with .flow directory and PROJECT_CONTEXT.md',
+    description: 'Initialize a new Flow project with .flow directory, PROJECT_CONTEXT.md, and AGENTS.md',
     inputSchema: {
       type: 'object',
       properties: {
@@ -1986,15 +1986,62 @@ Este documento deve ser atualizado quando:
         // Write PROJECT_CONTEXT.md
         await fs.writeFile(projectContextPath, projectContextContent);
 
+        // Create AGENTS.md from template
+        const agentsPath = path.join(flowDir, 'AGENTS.md');
+        const agentsTemplatePath = path.join(path.dirname(new URL(import.meta.url).pathname), 'templates', 'AGENTS.md');
+        
+        if (await fs.pathExists(agentsTemplatePath)) {
+          const agentsContent = await fs.readFile(agentsTemplatePath, 'utf-8');
+          await fs.writeFile(agentsPath, agentsContent);
+        } else {
+          // Fallback: create basic AGENTS.md if template not found
+          const basicAgentsContent = `# 🤖 Instruções para Agentes de IA
+
+## 🎯 Contexto do Projeto
+Este é um projeto Flow que utiliza desenvolvimento orientado a contexto.
+
+## 📁 Estrutura do Projeto
+- \`.flow/\` - Diretório principal do Flow
+- \`.flow/PROJECT_CONTEXT.md\` - Contexto global do projeto
+- \`.flow/AGENTS.md\` - Este arquivo com instruções para IA
+- \`.flow/task-*/\` - Diretórios de tasks individuais
+
+## 🔄 Fluxo de Desenvolvimento
+1. **Criar Task**: Use \`create_task\` para nova task
+2. **Definir Contexto**: Preencha BUSINESS_CONTEXT.md
+3. **Planejar**: Preencha APPROACH.md
+4. **Implementar**: Desenvolva a solução
+5. **Documentar**: Preencha COMPLETION_REPORT.md
+
+## ⚠️ Regras Importantes
+- **Isolamento**: Cada task deve ser independente
+- **Referências**: Só referencie outras tasks quando necessário
+- **Qualidade**: Valide sempre com \`validate_task\`
+
+## 🛠️ Ferramentas MCP Disponíveis
+Use as ferramentas MCP para automatizar o desenvolvimento:
+- \`create_task\` - Criar nova task
+- \`list_tasks\` - Listar tasks existentes
+- \`validate_task\` - Validar estrutura da task
+- \`init_flow_project\` - Inicializar projeto Flow
+- E outras ferramentas disponíveis
+
+**Última Atualização**: ${currentDate}
+`;
+          await fs.writeFile(agentsPath, basicAgentsContent);
+        }
+
         // Create .gitignore for .flow directory
         const gitignorePath = path.join(flowDir, '.gitignore');
         const gitignoreContent = `# Flow project files
-# Keep PROJECT_CONTEXT.md in version control
+# Keep PROJECT_CONTEXT.md and AGENTS.md in version control
 !PROJECT_CONTEXT.md
+!AGENTS.md
 
 # Ignore task-specific files (they should be in individual task folders)
 *.md
 !PROJECT_CONTEXT.md
+!AGENTS.md
 `;
         await fs.writeFile(gitignorePath, gitignoreContent);
 
@@ -2002,7 +2049,7 @@ Este documento deve ser atualizado quando:
           content: [
             {
               type: 'text',
-              text: `🎉 Projeto Flow inicializado com sucesso!\n\n📁 Diretório criado: ${flowDir}\n📄 PROJECT_CONTEXT.md: ${projectContextPath}\n📅 Data de criação: ${currentDate}\n\n${projectName ? `📋 Nome do projeto: ${projectName}\n` : ''}${mission ? `🎯 Missão: ${mission}\n` : ''}${goals ? `📈 Objetivos: ${goals.length} objetivos definidos\n` : ''}${techStack ? `🛠️ Stack tecnológico: ${techStack.length} tecnologias\n` : ''}${architecture ? `🏗️ Arquitetura: Princípios e padrões definidos\n` : ''}${standards ? `📋 Padrões: Convenções de desenvolvimento definidas\n` : ''}${tools ? `🔧 Ferramentas: Configurações definidas\n` : ''}${metrics ? `📊 Métricas: Indicadores de sucesso definidos\n` : ''}${notes ? `📝 Notas: Informações adicionais incluídas\n` : ''}\n\n✅ Próximos passos:\n1. Use 'create_task' para criar sua primeira task\n2. Use 'list_tasks' para ver todas as tasks\n3. Use 'update_project_context' para atualizar o contexto conforme necessário`,
+              text: `🎉 Projeto Flow inicializado com sucesso!\n\n📁 Diretório criado: ${flowDir}\n📄 PROJECT_CONTEXT.md: ${projectContextPath}\n📄 AGENTS.md: ${agentsPath}\n📅 Data de criação: ${currentDate}\n\n${projectName ? `📋 Nome do projeto: ${projectName}\n` : ''}${mission ? `🎯 Missão: ${mission}\n` : ''}${goals ? `📈 Objetivos: ${goals.length} objetivos definidos\n` : ''}${techStack ? `🛠️ Stack tecnológico: ${techStack.length} tecnologias\n` : ''}${architecture ? `🏗️ Arquitetura: Princípios e padrões definidos\n` : ''}${standards ? `📋 Padrões: Convenções de desenvolvimento definidas\n` : ''}${tools ? `🔧 Ferramentas: Configurações definidas\n` : ''}${metrics ? `📊 Métricas: Indicadores de sucesso definidos\n` : ''}${notes ? `📝 Notas: Informações adicionais incluídas\n` : ''}\n\n✅ Próximos passos:\n1. Use 'create_task' para criar sua primeira task\n2. Use 'list_tasks' para ver todas as tasks\n3. Use 'update_project_context' para atualizar o contexto conforme necessário\n4. Consulte AGENTS.md para instruções detalhadas para IA`,
             },
           ],
         };
