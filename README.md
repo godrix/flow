@@ -139,6 +139,7 @@ O Flow implementa um servidor MCP que permite integração direta com assistente
 - **get_task_info**: Obter informações detalhadas de tasks
 - **get_project_status**: Estatísticas gerais do projeto
 - **customize_agents**: Personalizar AGENTS.md automaticamente baseado na análise do projeto
+- **add_tech_instruction**: Adicionar instruções técnicas personalizadas nas seções de desenvolvimento e PR
 
 **Fase 2 - AI Integration:**
 - **generate_business_context**: Gerar BUSINESS_CONTEXT.md com preenchimento automático de tags
@@ -394,7 +395,26 @@ customize_agents({
 - ⚙️ **Personaliza comandos** baseado no package manager
 - 📝 **Mantém regras do Flow** intactas (só altera seções técnicas)
 
-### Opção 2: Personalização Manual
+### Opção 2: Adicionar Instruções Específicas
+
+Use a ferramenta MCP `add_tech_instruction` para adicionar instruções técnicas específicas:
+
+```bash
+# Via MCP
+add_tech_instruction({
+  instruction: "Use 'pnpm dlx turbo run dev' para iniciar o servidor de desenvolvimento",
+  section: "development", // ou "pr" ou "both"
+  workingDirectory: "/path/to/your/project"
+})
+```
+
+**O que esta ferramenta faz:**
+- 📝 **Adiciona instruções personalizadas** com timestamp
+- 🎯 **Permite especificar seção** (desenvolvimento, PR, ou ambas)
+- 📊 **Mantém rastreabilidade** das instruções adicionadas
+- 🔒 **Não modifica as regras** do fluxo Flow
+
+### Opção 3: Personalização Manual
 1. **Edite o arquivo `AGENTS.md`** na raiz do seu projeto
 2. **Substitua os placeholders** pelos comandos e regras específicos
 3. **Adicione seções personalizadas** conforme necessário

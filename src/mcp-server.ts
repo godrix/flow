@@ -394,24 +394,26 @@ const tools: Tool[] = [
     },
   },
   {
-    name: 'customize_agents',
-    description: 'Automatically customize AGENTS.md based on project analysis and detected patterns',
+    name: 'add_tech_instruction',
+    description: 'Add custom technical instruction to AGENTS.md development section',
     inputSchema: {
       type: 'object',
       properties: {
+        instruction: {
+          type: 'string',
+          description: 'Technical instruction to add (e.g., specific commands, tools, or practices)',
+        },
+        section: {
+          type: 'string',
+          description: 'Section to add instruction to: development, pr, or both (default: development)',
+          enum: ['development', 'pr', 'both'],
+        },
         workingDirectory: {
           type: 'string',
-          description: 'Working directory to analyze and customize AGENTS.md for (defaults to current directory)',
-        },
-        forceUpdate: {
-          type: 'boolean',
-          description: 'Force update even if AGENTS.md already exists and is customized (default: false)',
-        },
-        preserveCustomizations: {
-          type: 'boolean',
-          description: 'Preserve existing customizations and only update detected patterns (default: true)',
+          description: 'Working directory containing AGENTS.md (defaults to current directory)',
         },
       },
+      required: ['instruction'],
     },
   },
   {
@@ -1202,214 +1204,6 @@ function fillTemplateTags(templateContent: string, tagValues: Record<string, str
   filledContent = filledContent.replace(/\{\{RESPONSIBLE\}\}/g, tagValues.responsible || '{{RESPONSIBLE}}');
   
   return filledContent;
-}
-
-// Project analysis functions for AGENTS.md customization
-interface ProjectAnalysis {
-  packageManager: 'npm' | 'yarn' | 'pnpm' | 'unknown';
-  commands: {
-    dev: string;
-    build: string;
-    test: string;
-    lint: string;
-  };
-  frameworks: string[];
-  tools: string[];
-  customizations: string[];
-  summary: string;
-}
-
-async function analyzeProjectForCustomization(projectPath: string): Promise<ProjectAnalysis> {
-  const analysis: ProjectAnalysis = {
-    packageManager: 'unknown',
-    commands: {
-      dev: 'npm run dev',
-      build: 'npm run build', 
-      test: 'npm test',
-      lint: 'npm run lint'
-    },
-    frameworks: [],
-    tools: [],
-    customizations: [],
-    summary: ''
-  };
-
-  try {
-    // Analyze package.json
-    const packageJsonPath = path.join(projectPath, 'package.json');
-    if (await fs.pathExists(packageJsonPath)) {
-      const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf-8'));
-      
-      // Detect package manager
-      if (await fs.pathExists(path.join(projectPath, 'yarn.lock'))) {
-        analysis.packageManager = 'yarn';
-      } else if (await fs.pathExists(path.join(projectPath, 'pnpm-lock.yaml'))) {
-        analysis.packageManager = 'pnpm';
-      } else {
-        analysis.packageManager = 'npm';
-      }
-
-      // Detect frameworks and tools
-      const dependencies = { ...packageJson.dependencies, ...packageJson.devDependencies };
-      
-      if (dependencies.react) analysis.frameworks.push('React');
-      if (dependencies.vue) analysis.frameworks.push('Vue');
-      if (dependencies.angular) analysis.frameworks.push('Angular');
-      if (dependencies.next) analysis.frameworks.push('Next.js');
-      if (dependencies.nuxt) analysis.frameworks.push('Nuxt.js');
-      if (dependencies.svelte) analysis.frameworks.push('Svelte');
-      if (dependencies.express) analysis.frameworks.push('Express');
-      if (dependencies.fastify) analysis.frameworks.push('Fastify');
-      if (dependencies.nestjs) analysis.frameworks.push('NestJS');
-      if (dependencies.typescript) analysis.tools.push('TypeScript');
-      if (dependencies.eslint) analysis.tools.push('ESLint');
-      if (dependencies.prettier) analysis.tools.push('Prettier');
-      if (dependencies.jest) analysis.tools.push('Jest');
-      if (dependencies.vitest) analysis.tools.push('Vitest');
-      if (dependencies.cypress) analysis.tools.push('Cypress');
-      if (dependencies.playwright) analysis.tools.push('Playwright');
-      if (dependencies.tailwindcss) analysis.tools.push('Tailwind CSS');
-      if (dependencies.styled-components) analysis.tools.push('Styled Components');
-      if (dependencies.docker) analysis.tools.push('Docker');
-
-      // Update commands based on package manager
-      if (analysis.packageManager === 'yarn') {
-        analysis.commands = {
-          dev: 'yarn dev',
-          build: 'yarn build',
-          test: 'yarn test', 
-          lint: 'yarn lint'
-        };
-      } else if (analysis.packageManager === 'pnpm') {
-        analysis.commands = {
-          dev: 'pnpm dev',
-          build: 'pnpm build',
-          test: 'pnpm test',
-          lint: 'pnpm lint'
-        };
-      }
-
-      // Check for custom scripts
-      if (packageJson.scripts) {
-        if (packageJson.scripts.start) analysis.commands.dev = `${analysis.packageManager} start`;
-        if (packageJson.scripts.serve) analysis.commands.dev = `${analysis.packageManager} serve`;
-        if (packageJson.scripts.compile) analysis.commands.build = `${analysis.packageManager} compile`;
-        if (packageJson.scripts.check) analysis.commands.lint = `${analysis.packageManager} check`;
-      }
-    }
-
-    // Analyze config files
-    const configFiles = [
-      'tsconfig.json',
-      'eslint.config.js',
-      '.eslintrc.js',
-      'jest.config.js',
-      'vitest.config.js',
-      'webpack.config.js',
-      'vite.config.js',
-      'next.config.js',
-      'tailwind.config.js',
-      'docker-compose.yml',
-      'Dockerfile'
-    ];
-
-    for (const configFile of configFiles) {
-      if (await fs.pathExists(path.join(projectPath, configFile))) {
-        analysis.tools.push(configFile.replace('.config.js', '').replace('.config.ts', ''));
-      }
-    }
-
-    // Generate customizations
-    analysis.customizations.push(`Package manager: ${analysis.packageManager}`);
-    analysis.customizations.push(`Comandos detectados: ${Object.values(analysis.commands).join(', ')}`);
-    if (analysis.frameworks.length > 0) {
-      analysis.customizations.push(`Frameworks: ${analysis.frameworks.join(', ')}`);
-    }
-    if (analysis.tools.length > 0) {
-      analysis.customizations.push(`Ferramentas: ${analysis.tools.join(', ')}`);
-    }
-
-    // Generate summary
-    analysis.summary = `Projeto ${analysis.packageManager} com ${analysis.frameworks.length > 0 ? analysis.frameworks.join(', ') : 'tecnologias padrão'}`;
-
-  } catch (error) {
-    analysis.summary = 'Análise básica do projeto';
-    analysis.customizations.push('Análise limitada devido a erros');
-  }
-
-  return analysis;
-}
-
-async function generateCustomizedAgents(analysis: ProjectAnalysis, existingContent: string, preserveCustomizations: boolean): Promise<string> {
-  // Read template
-  const templatePath = path.join(path.dirname(new URL(import.meta.url).pathname), 'templates', 'AGENTS.md');
-  let templateContent = '';
-  
-  try {
-    templateContent = await fs.readFile(templatePath, 'utf-8');
-  } catch (error) {
-    // Fallback to existing content if template not found
-    templateContent = existingContent;
-  }
-
-  // If we have existing content and want to preserve customizations, work with it
-  let customizedContent = existingContent || templateContent;
-
-  // Only customize the technical sections, preserve Flow workflow rules
-  customizedContent = customizeTechnicalSections(customizedContent, analysis);
-
-  return customizedContent;
-}
-
-function customizeTechnicalSections(content: string, analysis: ProjectAnalysis): string {
-  let customizedContent = content;
-
-  // Replace command placeholders ONLY in development and PR sections
-  customizedContent = customizedContent.replace(/\[COMANDO_DEV\]/g, analysis.commands.dev);
-  customizedContent = customizedContent.replace(/\[COMANDO_BUILD\]/g, analysis.commands.build);
-  customizedContent = customizedContent.replace(/\[COMANDO_TEST\]/g, analysis.commands.test);
-  customizedContent = customizedContent.replace(/\[COMANDO_LINT\]/g, analysis.commands.lint);
-
-  // Add project-specific customizations ONLY to technical sections
-  if (analysis.frameworks.length > 0) {
-    const frameworksText = analysis.frameworks.join(', ');
-    
-    // Add frameworks info to Estrutura de Arquivos section
-    customizedContent = customizedContent.replace(
-      /- \*\*Personalize\*\*: Adicione regras específicas de organização do seu projeto/g,
-      `- **Frameworks detectados**: ${frameworksText}\n- **Personalize**: Adicione regras específicas de organização do seu projeto`
-    );
-  }
-
-  if (analysis.tools.length > 0) {
-    const toolsText = analysis.tools.join(', ');
-    
-    // Add tools info to Boas Práticas de Código section
-    customizedContent = customizedContent.replace(
-      /- \*\*Personalize\*\*: Adicione padrões de código específicos \(ex: ESLint rules, Prettier config, etc\.\)/g,
-      `- **Ferramentas detectadas**: ${toolsText}\n- **Personalize**: Adicione padrões de código específicos (ex: ESLint rules, Prettier config, etc.)`
-    );
-  }
-
-  // Add package manager specific notes ONLY to development section
-  if (analysis.packageManager !== 'npm') {
-    const packageManagerNote = `\n- **Package Manager**: ${analysis.packageManager} detectado - use comandos específicos do ${analysis.packageManager}`;
-    customizedContent = customizedContent.replace(
-      /- \*\*Exemplo\*\*: \`npm run dev\`, \`yarn start\`, \`pnpm dev\`, etc\./g,
-      `- **Exemplo**: \`npm run dev\`, \`yarn start\`, \`pnpm dev\`, etc.${packageManagerNote}`
-    );
-  }
-
-  // Add technical customization timestamp at the end
-  const timestamp = new Date().toISOString().split('T')[0];
-  const technicalInfo = `\n\n---\n\n**🔧 Personalização Técnica Automática**\n**Data**: ${timestamp}\n**Package Manager**: ${analysis.packageManager}\n**Frameworks**: ${analysis.frameworks.join(', ') || 'Nenhum detectado'}\n**Ferramentas**: ${analysis.tools.join(', ') || 'Nenhuma detectada'}\n\n*Esta seção foi personalizada automaticamente baseada na análise do projeto. As regras do fluxo Flow permanecem inalteradas.*`;
-
-  // Only add if not already present
-  if (!customizedContent.includes('Personalização Técnica Automática')) {
-    customizedContent += technicalInfo;
-  }
-
-  return customizedContent;
 }
 
 // Call tool handler
@@ -2732,11 +2526,11 @@ Este documento deve ser atualizado quando:
         };
       }
 
-      case 'customize_agents': {
-        const { workingDirectory, forceUpdate = false, preserveCustomizations = true } = args as {
+      case 'add_tech_instruction': {
+        const { instruction, section = 'development', workingDirectory } = args as {
+          instruction: string;
+          section?: 'development' | 'pr' | 'both';
           workingDirectory?: string;
-          forceUpdate?: boolean;
-          preserveCustomizations?: boolean;
         };
 
         const currentDir = workingDirectory ? path.resolve(workingDirectory) : process.cwd();
@@ -2749,48 +2543,62 @@ Este documento deve ser atualizado quando:
           targetAgentsPath = agentsScopedPath;
         }
 
-        // Check if AGENTS.md already exists and is customized
-        let existingContent = '';
-        let isCustomized = false;
-        
-        if (await fs.pathExists(targetAgentsPath)) {
-          existingContent = await fs.readFile(targetAgentsPath, 'utf-8');
-          // Check if it's customized (doesn't contain template placeholders)
-          isCustomized = !existingContent.includes('[COMANDO_DEV]') && 
-                        !existingContent.includes('[COMANDO_BUILD]') && 
-                        !existingContent.includes('[COMANDO_TEST]') && 
-                        !existingContent.includes('[COMANDO_LINT]');
-        }
-
-        if (isCustomized && !forceUpdate) {
+        // Check if AGENTS.md exists
+        if (!(await fs.pathExists(targetAgentsPath))) {
           return {
             content: [
               {
                 type: 'text',
-                text: `⚠️ AGENTS.md já está personalizado!\n\n📁 Localização: ${targetAgentsPath}\n🔍 Status: Personalizado (não contém placeholders de template)\n\nUse 'forceUpdate: true' para forçar a atualização ou 'preserveCustomizations: false' para substituir completamente.`,
+                text: `❌ AGENTS.md não encontrado!\n\n📁 Procurado em: ${targetAgentsPath}\n\nUse 'init_flow_project' para criar o arquivo AGENTS.md primeiro.`,
               },
             ],
           };
         }
 
-        // Analyze project to detect patterns
-        const projectAnalysis = await analyzeProjectForCustomization(currentDir);
+        // Read current content
+        let content = await fs.readFile(targetAgentsPath, 'utf-8');
         
-        // Generate customized AGENTS.md content
-        const customizedContent = await generateCustomizedAgents(projectAnalysis, existingContent, preserveCustomizations);
+        // Add instruction to the specified section(s)
+        const timestamp = new Date().toISOString().split('T')[0];
+        const instructionText = `\n- **${timestamp}**: ${instruction}`;
 
-        // Write the customized AGENTS.md
-        await fs.writeFile(targetAgentsPath, customizedContent);
+        if (section === 'development' || section === 'both') {
+          // Find the development section and add instruction
+          const devSectionRegex = /(## Instruções de Desenvolvimento[\s\S]*?)(?=##|$)/;
+          const devMatch = content.match(devSectionRegex);
+          
+          if (devMatch) {
+            const devSection = devMatch[1];
+            const updatedDevSection = devSection + instructionText;
+            content = content.replace(devSectionRegex, updatedDevSection);
+          }
+        }
+
+        if (section === 'pr' || section === 'both') {
+          // Find the PR section and add instruction
+          const prSectionRegex = /(## Instruções de PR[\s\S]*?)(?=##|$)/;
+          const prMatch = content.match(prSectionRegex);
+          
+          if (prMatch) {
+            const prSection = prMatch[1];
+            const updatedPrSection = prSection + instructionText;
+            content = content.replace(prSectionRegex, updatedPrSection);
+          }
+        }
+
+        // Write updated content
+        await fs.writeFile(targetAgentsPath, content);
 
         return {
           content: [
             {
               type: 'text',
-              text: `✅ AGENTS.md personalizado automaticamente!\n\n📁 Localização: ${targetAgentsPath}\n🔍 Análise do projeto:\n${projectAnalysis.summary}\n\n🛠️ Personalizações aplicadas:\n${projectAnalysis.customizations.map(c => `- ${c}`).join('\n')}\n\n📝 Próximos passos:\n1. Revise o arquivo AGENTS.md personalizado\n2. Ajuste manualmente se necessário\n3. Teste os comandos detectados\n4. Commit as alterações`,
+              text: `✅ Instrução técnica adicionada!\n\n📁 Arquivo: ${targetAgentsPath}\n📝 Seção: ${section}\n💡 Instrução: ${instruction}\n\nA instrução foi adicionada com timestamp para rastreabilidade.`,
             },
           ],
         };
       }
+
 
       case 'init_flow_project': {
         const { projectName, mission, goals, techStack, architecture, standards, tools, metrics, notes, workingDirectory, agentsScoped = false } = args as {

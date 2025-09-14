@@ -5,6 +5,23 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.8.0] - 2024-12-19
+
+### Added
+- **Nova ferramenta MCP `add_tech_instruction`**: Permite adicionar instruções técnicas personalizadas nas seções de desenvolvimento e PR do AGENTS.md
+- **Funcionalidade de adição de instruções**: Adiciona instruções com timestamp para rastreabilidade
+- **Suporte a múltiplas seções**: Permite especificar seção (desenvolvimento, PR, ou ambas)
+- **Documentação atualizada**: Guia completo para uso da nova ferramenta no README
+
+### Changed
+- **Simplificação da abordagem**: Removida análise programática complexa em favor de adição manual de instruções
+- **Foco na flexibilidade**: Ferramenta permite ao usuário adicionar instruções específicas conforme necessário
+
+### Technical
+- **Handler MCP implementado**: Lógica para encontrar e modificar seções específicas do AGENTS.md
+- **Validação de arquivos**: Verifica existência do AGENTS.md antes de adicionar instruções
+- **Preservação de estrutura**: Mantém integridade das regras do fluxo Flow
+
 ## [1.7.0] - 2024-12-19
 
 ### 🚀 Adicionado
