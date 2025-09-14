@@ -221,7 +221,7 @@ program
   .action(async () => {
     // Import and start MCP server
     const { spawn } = await import('child_process');
-    const mcpServerPath = path.join(__dirname, 'mcp-server.js');
+    const mcpServerPath = path.join(path.dirname(new URL(import.meta.url).pathname), 'mcp-server.js');
     
     console.log(chalk.blue('🚀 Starting Flow MCP Server...'));
     console.log(chalk.gray('This server exposes Flow commands to AI assistants via MCP protocol.'));
