@@ -83,10 +83,10 @@ Conteúdo específico da tag
 
 ### ⚠️ Editável com Permissão
 - **PROJECT_CONTEXT.md**: Solicite permissão explícita antes de modificar
-
-### 🚫 Somente Leitura
 - **APPROACH.md**: Plano técnico imutável
 - **BUSINESS_CONTEXT.md**: Especificações funcionais
+
+### 🚫 Somente Leitura
 - **AGENTS.md**: Este arquivo
 
 ## 🔄 Workflow Obrigatório
@@ -145,126 +145,88 @@ Conteúdo específico da tag
 - Execute testes conforme especificado no APPROACH.md
 - Documente métricas de qualidade quando aplicável
 
+## 🛠️ Instruções de Desenvolvimento
+
+> **📝 NOTA**: Esta seção deve ser personalizada pelos desenvolvedores humanos com as informações específicas do projeto. Substitua os exemplos abaixo pelas instruções reais do seu projeto.
+
+### Ambiente de Desenvolvimento
+- Use `[COMANDO_DEV]` para iniciar o servidor de desenvolvimento
+- Use `[COMANDO_BUILD]` para compilar o projeto
+- Use `[COMANDO_TEST]` para executar testes
+- Use `[COMANDO_LINT]` para verificar qualidade do código
+- **Exemplo**: `npm run dev`, `yarn start`, `pnpm dev`, etc.
+
+### Estrutura de Arquivos
+- Mantenha a estrutura `.flow/` para organização de tasks
+- Use nomes descritivos para tasks (ex: `01_FEATURE_AUTH`, `02_BUG_LOGIN_ISSUE`)
+- Siga o padrão de templates IA-friendly com tags delimitadas
+- **Personalize**: Adicione regras específicas de organização do seu projeto
+
+### Boas Práticas de Código
+- Sempre documente mudanças no COMPLETION_REPORT.md
+- Mantenha rastreabilidade entre código e documentação
+- Valide critérios de aceitação antes de considerar completo
+- **Personalize**: Adicione padrões de código específicos (ex: ESLint rules, Prettier config, etc.)
+
+### Testes e Qualidade
+- Execute testes antes de cada commit
+- Mantenha cobertura de testes adequada
+- Use linting para manter consistência de código
+- Valide funcionalidades contra BUSINESS_CONTEXT.md
+- **Personalize**: Adicione critérios específicos de qualidade do projeto
+
+## 📋 Instruções de PR
+
+> **📝 NOTA**: Esta seção deve ser personalizada pelos desenvolvedores humanos com as informações específicas do projeto. Substitua os exemplos abaixo pelas instruções reais do seu projeto.
+
+### Formato do Título
+- Use formato: `[TASK_NAME] <Descrição da mudança>`
+- **Exemplo**: `[01_FEATURE_AUTH] Implementa autenticação JWT`
+- **Personalize**: Adicione regras específicas de nomenclatura do projeto
+
+### Checklist Antes do Commit
+- [ ] Todos os testes passando (`[COMANDO_TEST]`)
+- [ ] Linting sem erros (`[COMANDO_LINT]`)
+- [ ] COMPLETION_REPORT.md atualizado
+- [ ] Critérios de aceitação validados
+- [ ] Documentação atualizada se necessário
+- **Personalize**: Adicione verificações específicas do projeto (ex: build, type-check, etc.)
+
+### Processo de Review
+- Sempre execute `[COMANDO_BUILD]` para verificar compilação
+- Valide se a implementação segue o APPROACH.md
+- Confirme se atende aos requisitos do BUSINESS_CONTEXT.md
+- Verifique se não há regressões em outras funcionalidades
+- **Personalize**: Adicione critérios específicos de review do projeto
+
 ## 🤖 Ferramentas MCP Disponíveis
 
 ### **IMPORTANTE**: Integração com Model Context Protocol (MCP)
 Este projeto implementa um servidor MCP que expõe ferramentas específicas para assistentes de IA. Se você tem acesso a essas ferramentas, use-as para automatizar tarefas de desenvolvimento.
 
-### **Fase 1 - Core Features**
-
-#### `create_task`
-Cria uma nova task com templates estruturados.
-- **Parâmetros**: taskName (obrigatório), taskType (opcional: feature/bug/improvement/research), workingDirectory (opcional)
-- **Uso**: Para criar novas tasks automaticamente
-- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
-
-#### `list_tasks`
-Lista todas as tasks existentes no projeto.
-- **Parâmetros**: workingDirectory (opcional)
-- **Uso**: Para verificar tasks existentes e status
-- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
-
-#### `validate_task`
-Valida a estrutura de uma task específica.
-- **Parâmetros**: taskName (obrigatório), workingDirectory (opcional)
-- **Uso**: Para verificar qualidade e estrutura das tasks
-- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
-
-#### `get_task_info`
-Obtém informações detalhadas sobre uma task específica.
-- **Parâmetros**: taskName (obrigatório), workingDirectory (opcional)
-- **Uso**: Para analisar conteúdo de tasks específicas
-- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
-
-#### `get_project_status`
-Obtém estatísticas gerais do projeto.
-- **Parâmetros**: workingDirectory (opcional)
-- **Uso**: Para análise de progresso geral
-- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
-
-### **Fase 2 - AI Integration**
-
-#### `generate_business_context`
-Gera automaticamente BUSINESS_CONTEXT.md com preenchimento inteligente de tags específicas.
-- **Parâmetros**: taskName, description (obrigatórios), taskType (opcional)
-- **Parâmetros específicos**: context, businessValue, validationRules, businessLogic, dataConstraints, positiveScenario, negativeScenario, edgeCaseScenario, functionalCriteria, nonFunctionalCriteria, apiEndpoints, externalServices, loggingRequirements, analyticsRequirements
-- **Metadados**: priority, estimate, stakeholder, deadline, responsible
-- **Uso**: Para criar contexto de negócio estruturado com preenchimento automático de tags
-
-#### `generate_approach`
-Gera automaticamente APPROACH.md baseado no business context.
-- **Parâmetros**: taskName, businessContext (obrigatórios), techStack, architecture (opcionais)
-- **Uso**: Para criar plano técnico baseado no contexto de negócio
-
-#### `generate_completion_report`
-Gera automaticamente COMPLETION_REPORT.md baseado no trabalho realizado.
-- **Parâmetros**: taskName, workDone (obrigatórios), issuesFound, deviations, metrics (opcionais)
-- **Uso**: Para documentar conclusão de tasks automaticamente
-
-#### `analyze_codebase`
-Analisa o codebase atual para entender estrutura e dependências.
-- **Parâmetros**: path, includePatterns, excludePatterns, workingDirectory (opcionais)
-- **Uso**: Para entender arquitetura e tecnologias do projeto
-- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
-
-#### `update_project_context`
-Atualiza o PROJECT_CONTEXT.md com novas informações ou cria se não existir.
-- **Parâmetros**: mission, goals, techStack, architecture, standards, tools, metrics, notes, workingDirectory (todos opcionais)
-- **Uso**: Para manter o contexto global do projeto sempre atualizado
-- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
-
-#### `init_flow_project`
-Inicializa um novo projeto Flow com diretório .flow, PROJECT_CONTEXT.md e AGENTS.md.
-- **Parâmetros**: projectName, mission, goals, techStack, architecture, standards, tools, metrics, notes, workingDirectory, agentsScoped (todos opcionais)
-- **Uso**: Para criar um novo projeto Flow do zero
-- **Arquivos Criados**: `.flow/`, `PROJECT_CONTEXT.md`, `AGENTS.md`, `.gitignore`
-- **Modo Padrão**: AGENTS.md criado na raiz do projeto (recomendado)
-- **Modo Legacy**: Use `agentsScoped: true` para criar AGENTS.md dentro de .flow/
-- **Nota**: Use `workingDirectory` para especificar o diretório do projeto (padrão: diretório atual)
+### **Ferramentas Principais**
+- **`create_task`**: Cria uma nova task com templates estruturados
+- **`list_tasks`**: Lista todas as tasks existentes no projeto
+- **`validate_task`**: Valida a estrutura de uma task específica
+- **`generate_business_context`**: Gera automaticamente BUSINESS_CONTEXT.md
+- **`generate_approach`**: Gera automaticamente APPROACH.md
+- **`generate_completion_report`**: Gera automaticamente COMPLETION_REPORT.md
+- **`analyze_codebase`**: Analisa o codebase atual
+- **`update_project_context`**: Atualiza o PROJECT_CONTEXT.md
+- **`init_flow_project`**: Inicializa um novo projeto Flow
 
 ### **⚠️ IMPORTANTE: Parâmetro `workingDirectory`**
-
-**Problema Identificado**: O MCP server roda no diretório do próprio Flow (`/Users/caggodri/Documents/flow`) em vez do diretório do projeto do usuário.
-
-**Solução**: Use o parâmetro `workingDirectory` em todas as ferramentas MCP para especificar o diretório correto do projeto.
-
-**Exemplo de Uso**:
-```javascript
-// ❌ INCORRETO - Cria no diretório do Flow
-create_task({ taskName: "FEATURE_AUTH" })
-
-// ✅ CORRETO - Cria no diretório do projeto
-create_task({ 
-  taskName: "FEATURE_AUTH", 
-  workingDirectory: "/Users/caggodri/Documents/Repos/ms-ags-treatment-support" 
-})
-```
-
-**Diretório Padrão**: Se não especificar `workingDirectory`, as ferramentas usarão o diretório atual onde o MCP server está rodando.
+Use o parâmetro `workingDirectory` em todas as ferramentas MCP para especificar o diretório correto do projeto, pois o MCP server roda no diretório do próprio Flow.
 
 ### **Workflow Recomendado com MCP**
-
-#### **Para Novos Projetos:**
 ```
-1. init_flow_project → Inicializar projeto Flow
-2. create_task → Criar primeira task
+1. analyze_codebase → Entender projeto atual
+2. create_task → Criar nova task
 3. generate_business_context → Definir requisitos
 4. generate_approach → Planejar implementação
 5. [Desenvolvimento manual]
 6. generate_completion_report → Documentar conclusão
 7. validate_task → Validar qualidade
-```
-
-#### **Para Projetos Existentes:**
-```
-1. analyze_codebase → Entender projeto atual
-2. update_project_context → Atualizar contexto global (se necessário)
-3. create_task → Criar nova task
-4. generate_business_context → Definir requisitos
-5. generate_approach → Planejar implementação
-6. [Desenvolvimento manual]
-7. generate_completion_report → Documentar conclusão
-8. validate_task → Validar qualidade
 ```
 
 ## 🔗 Referenciando Outras Tasks
@@ -274,14 +236,6 @@ create_task({
 - **Integração**: Quando precisa integrar com código de outra task
 - **Contexto Histórico**: Quando precisa entender decisões anteriores
 - **Reutilização**: Quando pode reutilizar componentes de outra task
-
-### Como Referenciar Corretamente
-```markdown
-# Exemplo de referência em COMPLETION_REPORT.md
-- **INTEGRATION**: Integração com componente UserAuth da task 01_FEATURE_AUTH
-- **REFERENCE**: Seguindo padrão de validação estabelecido na task 02_BUG_LOGIN_ISSUE
-- **DEPENDENCY**: Utilizando API endpoint criado na task 03_FEATURE_PROFILE
-```
 
 ### ⚠️ Cuidados ao Referenciar
 - **NÃO** modifique arquivos de outras tasks

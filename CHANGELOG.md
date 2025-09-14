@@ -5,6 +5,26 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.6.0] - 2024-12-19
+
+### 🔧 Melhorado
+- **AGENTS.md Template**: Transformado em template personalizável para desenvolvedores
+- **Instruções de Desenvolvimento**: Seção com placeholders para comandos específicos do projeto
+- **Instruções de PR**: Template personalizável para processos de review específicos
+- **Flexibilidade**: Desenvolvedores podem personalizar comandos, regras e critérios específicos
+
+### 📚 Documentação
+- **README.md**: Adicionada seção completa sobre configuração personalizada do AGENTS.md
+- **Exemplos Práticos**: Incluídos exemplos de personalização para diferentes tipos de projeto
+- **Guia de Configuração**: Instruções passo-a-passo para personalizar o template
+- **Boas Práticas**: Orientações sobre como manter compatibilidade com IA
+
+### ✅ Melhorias
+- **Personalização**: Desenvolvedores podem adaptar o template às necessidades específicas
+- **Flexibilidade**: Suporte a diferentes ferramentas (npm, yarn, pnpm, etc.)
+- **Clareza**: Placeholders claros indicam onde personalizar
+- **Compatibilidade**: Estrutura base mantida para funcionamento com IA
+
 ## [1.5.0] - 2024-12-19
 
 ### 🚀 Adicionado

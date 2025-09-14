@@ -322,6 +322,63 @@ Instruções completas para IA com:
 - Regras de isolamento por tarefa
 - Boas práticas de desenvolvimento
 
+#### 🔧 Configuração Personalizada do AGENTS.md
+
+O arquivo `AGENTS.md` inclui seções que devem ser personalizadas pelos desenvolvedores com informações específicas do projeto:
+
+**Seções a Personalizar:**
+
+1. **🛠️ Instruções de Desenvolvimento**
+   - Substitua `[COMANDO_DEV]`, `[COMANDO_BUILD]`, `[COMANDO_TEST]`, `[COMANDO_LINT]` pelos comandos reais do projeto
+   - Adicione regras específicas de organização de arquivos
+   - Inclua padrões de código específicos (ESLint, Prettier, etc.)
+   - Defina critérios de qualidade específicos do projeto
+
+2. **📋 Instruções de PR**
+   - Personalize o formato de título de PR
+   - Adicione verificações específicas ao checklist de commit
+   - Inclua critérios específicos de review do projeto
+
+**Exemplo de Personalização:**
+
+```markdown
+## 🛠️ Instruções de Desenvolvimento
+
+### Ambiente de Desenvolvimento
+- Use `npm run dev` para iniciar o servidor de desenvolvimento
+- Use `npm run build` para compilar o projeto
+- Use `npm run test` para executar testes
+- Use `npm run lint` para verificar qualidade do código
+
+### Estrutura de Arquivos
+- Mantenha a estrutura `.flow/` para organização de tasks
+- Use nomes descritivos para tasks (ex: `01_FEATURE_AUTH`, `02_BUG_LOGIN_ISSUE`)
+- Siga o padrão de templates IA-friendly com tags delimitadas
+- **Regras específicas**: Use TypeScript para todos os arquivos .ts
+- **Organização**: Mantenha componentes em `/src/components/`
+
+### Boas Práticas de Código
+- Sempre documente mudanças no COMPLETION_REPORT.md
+- Mantenha rastreabilidade entre código e documentação
+- Valide critérios de aceitação antes de considerar completo
+- **Padrões específicos**: Use ESLint com regras Airbnb, Prettier para formatação
+
+### Testes e Qualidade
+- Execute testes antes de cada commit
+- Mantenha cobertura de testes mínima de 80%
+- Use linting para manter consistência de código
+- Valide funcionalidades contra BUSINESS_CONTEXT.md
+- **Critérios específicos**: Todos os componentes devem ter testes unitários
+```
+
+**Como Personalizar:**
+
+1. **Edite o arquivo `AGENTS.md`** na raiz do seu projeto
+2. **Substitua os placeholders** pelos comandos e regras específicos
+3. **Adicione seções personalizadas** conforme necessário
+4. **Mantenha a estrutura base** para compatibilidade com IA
+5. **Teste a configuração** criando uma task de exemplo
+
 ### PROJECT_CONTEXT.md
 Contexto global do projeto com:
 - Missão e objetivos
