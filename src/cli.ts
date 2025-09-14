@@ -11,7 +11,7 @@ const program = new Command();
 program
   .name('flow')
   .description('CLI tool to create structured task contexts with templates')
-  .version('1.3.0');
+  .version('1.3.1');
 
 program
   .argument('<taskName>', 'Name of the task (e.g., task-1234, FEATURE_AUTH)')
