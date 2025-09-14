@@ -22,7 +22,7 @@ program
       console.log(chalk.blue(`🚀 Creating ${options.type} task context for: ${taskName}`));
       
       const currentDir = process.cwd();
-      const result = await createTaskContext(taskName, currentDir, options.type);
+      const result = await createTaskContext(taskName, currentDir, options.type, true, taskName);
       
       if (result.success) {
         console.log(chalk.green(`✅ Task context created successfully!`));
