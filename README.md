@@ -17,6 +17,48 @@ Toda tarefa começa com uma compreensão profunda de seu propósito. O arquivo `
 ### C - Completion Report: A Evidência do Trabalho Realizado
 O progresso deve ser documentado. O `COMPLETION_REPORT.md` é o registro formal e cronológico do trabalho realizado. Ele conecta as ações tomadas de volta às tarefas planejadas, documenta desvios e serve como prova final de que os objetivos no `BUSINESS_CONTEXT.md` foram atendidos.
 
+## 📊 Fluxo do Processo Flow
+
+```mermaid
+flowchart TD
+    A[🚀 Início do Projeto] --> B[📋 Criar Task]
+    B --> C[📝 BUSINESS_CONTEXT.md]
+    C --> D[🎯 Definir Requisitos]
+    D --> E[📐 APPROACH.md]
+    E --> F[🏗️ Planejamento Técnico]
+    F --> G[⚡ Implementação]
+    G --> H[📊 COMPLETION_REPORT.md]
+    H --> I{✅ Objetivos<br/>Alcançados?}
+    I -->|Sim| J[🎉 Task Concluída]
+    I -->|Não| K[🔄 Revisar APPROACH]
+    K --> F
+    
+    subgraph "📁 Estrutura de Arquivos"
+        L[PROJECT_CONTEXT.md<br/>Contexto Global]
+        M[AGENTS.md<br/>Instruções para IA]
+        N[.flow/<br/>Diretório do Projeto]
+    end
+    
+    subgraph "🤖 Ferramentas MCP"
+        O[create_task<br/>Criar Tasks]
+        P[generate_business_context<br/>Gerar Contexto]
+        Q[generate_approach<br/>Gerar Plano]
+        R[generate_completion_report<br/>Gerar Relatório]
+        S[add_tech_instruction<br/>Adicionar Instruções]
+    end
+    
+    B -.-> O
+    C -.-> P
+    E -.-> Q
+    H -.-> R
+    M -.-> S
+    
+    style A fill:#e1f5fe
+    style J fill:#c8e6c9
+    style I fill:#fff3e0
+    style K fill:#ffecb3
+```
+
 ## 🚀 Instalação
 
 ```bash
