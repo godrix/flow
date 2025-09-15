@@ -12,7 +12,10 @@
     "build": "tsc && npm run copy-templates",
     "copy-templates": "cp -r src/templates dist/",
     "prepare": "npm run build",
-    "dev": "npm run build && node ./dist/cli.js"
+    "dev": "npm run build && node ./dist/cli.js",
+    "build:docs": "echo 'Building documentation for GitHub Pages'",
+    "serve:docs": "cd docs && python -m http.server 8000",
+    "deploy:docs": "npm run build:docs && echo 'Deploy to GitHub Pages via Actions'"
   },
   "keywords": [
     "cli",
@@ -36,7 +39,7 @@
     "url": "https://github.com/godrix"
   },
   "license": "MIT",
-  "homepage": "https://github.com/godrix/flow#readme",
+  "homepage": "https://godrix.github.io/flow/",
   "repository": {
     "type": "git",
     "url": "https://github.com/godrix/flow.git"

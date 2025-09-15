@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow - Context-Driven Development</title>
+    <meta name="description" content="Flow: Context-Driven Development CLI para criar contextos estruturados de tarefas com templates otimizados para IA">
+    <meta name="keywords" content="flow, context-driven-development, cli, ai-development, task-management, workflow, templates">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://godrix.github.io/flow/">
+    <meta property="og:title" content="Flow - Context-Driven Development">
+    <meta property="og:description" content="CLI para criar contextos estruturados de tarefas com templates otimizados para IA">
+    <meta property="og:image" content="https://godrix.github.io/flow/assets/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://godrix.github.io/flow/">
+    <meta property="twitter:title" content="Flow - Context-Driven Development">
+    <meta property="twitter:description" content="CLI para criar contextos estruturados de tarefas com templates otimizados para IA">
+    <meta property="twitter:image" content="https://godrix.github.io/flow/assets/og-image.png">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <img src="assets/logo.svg" alt="Flow" class="logo">
+                    <span class="brand-text">Flow</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features" class="nav-link">Recursos</a>
+                    <a href="#getting-started" class="nav-link">Começar</a>
+                    <a href="#examples" class="nav-link">Exemplos</a>
+                    <a href="#mcp-integration" class="nav-link">MCP</a>
+                    <a href="#docs" class="nav-link">Documentação</a>
+                    <a href="https://github.com/godrix/flow" class="nav-link external" target="_blank" rel="noopener">
+                        GitHub
+                        <svg class="external-icon" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M3 9L9 3M9 3H3M9 3V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+                <button class="nav-toggle" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">Context-Driven Development</span>
+                </h1>
+              
+                <p class="hero-description">
+                    O Flow implementa uma metodologia de desenvolvimento baseada em contexto que estrutura cada tarefa em três fases distintas: <strong>Requisitos</strong>, <strong>Design</strong> e <strong>Implementação</strong>. Este processo garante alinhamento, rastreabilidade e foco constante na entrega de valor.
+                </p>
+                <div class="hero-actions">
+                    <a href="#getting-started" class="btn btn-primary">
+                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M8 1L15 8L8 15L1 8L8 1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Começar Agora
+                    </a>
+                    <a href="https://github.com/godrix/flow" class="btn btn-secondary" target="_blank" rel="noopener">
+                        <svg class="btn-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M8 1C4.134 1 1 4.134 1 8C1 11.866 4.134 15 8 15C11.866 15 15 11.866 15 8C15 4.134 11.866 1 8 1Z" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M8 4V8L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Ver no GitHub
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-buttons">
+                            <span class="terminal-button"></span>
+                            <span class="terminal-button"></span>
+                            <span class="terminal-button"></span>
+                        </div>
+                        <span class="terminal-title">Terminal</span>
+                    </div>
+                    <div class="terminal-content">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">npx @godrix/flow FEATURE_AUTH</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">🚀 Creating feature task context for: FEATURE_AUTH</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">✅ Task context created successfully!</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">📁 Location: .flow/01_FEATURE_AUTH</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">📄 Files created: APPROACH.md, BUSINESS_CONTEXT.md, COMPLETION_REPORT.md</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-cursor">_</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Por que usar o Flow?</h2>
+                <p class="section-description">
+                    O Flow cria um ecossistema onde humanos e IA podem colaborar com precisão e propósito.
+                </p>
+             
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Metodologia ABC</h3>
+                    <p class="feature-description">
+                        <strong>A</strong>pproach (Blueprint técnico), <strong>B</strong>usiness Context (Requisitos), <strong>C</strong>ompletion Report (Evidência)
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Integração com IA</h3>
+                    <p class="feature-description">
+                        Servidor MCP para integração direta com assistentes de IA e geração automática de conteúdo
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Templates IA-Friendly</h3>
+                    <p class="feature-description">
+                        Estrutura com tags delimitadas para fácil compreensão e preenchimento automático
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 3H21V21H3V3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 9H15V15H9V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Isolamento por Tarefa</h3>
+                    <p class="feature-description">
+                        Cada tarefa é independente e isolada, garantindo foco e organização
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Rastreabilidade Completa</h3>
+                    <p class="feature-description">
+                        Documentação automática do progresso e conexão entre ações e objetivos
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">CLI Intuitivo</h3>
+                    <p class="feature-description">
+                        Comandos simples e diretos para criar, listar e validar tarefas
+                    </p>
+                </div>
+            </div>
+            <div class="hero-quote">
+                <p class="quote-text">👨‍💻🤝🤖 <em>A humanidade é uma coisa boa; a IA é apenas uma extensão dela.</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Getting Started Section -->
+    <section id="getting-started" class="getting-started">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Começar em 3 passos</h2>
+                <p class="section-description">
+                    Instale o Flow e crie sua primeira tarefa estruturada em minutos
+                </p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Instalar</h3>
+                        <p class="step-description">Instale o Flow globalmente via npm</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-title">Terminal</span>
+                                <button class="code-copy" aria-label="Copiar comando">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M4 2C4 1.44772 4.44772 1 5 1H11C11.5523 1 12 1.44772 12 2V4C12 4.55228 11.5523 5 11 5H5C4.44772 5 4 4.55228 4 4V2Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M4 6C4 5.44772 4.44772 5 5 5H11C11.5523 5 12 5.44772 12 6V8C12 8.55228 11.5523 9 11 9H5C4.44772 9 4 8.55228 4 8V6Z" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="code-content">
+                                <code>npm install -g @godrix/flow</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Inicializar</h3>
+                        <p class="step-description">Inicialize um novo projeto Flow</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-title">Terminal</span>
+                                <button class="code-copy" aria-label="Copiar comando">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M4 2C4 1.44772 4.44772 1 5 1H11C11.5523 1 12 1.44772 12 2V4C12 4.55228 11.5523 5 11 5H5C4.44772 5 4 4.55228 4 4V2Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M4 6C4 5.44772 4.44772 5 5 5H11C11.5523 5 12 5.44772 12 6V8C12 8.55228 11.5523 9 11 9H5C4.44772 9 4 8.55228 4 8V6Z" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="code-content">
+                                <code>npx @godrix/flow init --name "Meu Projeto" --mission "Resolver problema X"</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Criar Tarefa</h3>
+                        <p class="step-description">Crie sua primeira tarefa estruturada</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-title">Terminal</span>
+                                <button class="code-copy" aria-label="Copiar comando">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M4 2C4 1.44772 4.44772 1 5 1H11C11.5523 1 12 1.44772 12 2V4C12 4.55228 11.5523 5 11 5H5C4.44772 5 4 4.55228 4 4V2Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M4 6C4 5.44772 4.44772 5 5 5H11C11.5523 5 12 5.44772 12 6V8C12 8.55228 11.5523 9 11 9H5C4.44772 9 4 8.55228 4 8V6Z" stroke="currentColor" stroke-width="1.5"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="code-content">
+                                <code>npx @godrix/flow FEATURE_AUTH --type feature</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section id="examples" class="examples">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Exemplos de Uso</h2>
+                <p class="section-description">
+                    Veja como o Flow estrutura diferentes tipos de tarefas
+                </p>
+            </div>
+            <div class="examples-tabs">
+                <button class="tab-button active" data-tab="feature">Feature</button>
+                <button class="tab-button" data-tab="bug">Bug Fix</button>
+                <button class="tab-button" data-tab="improvement">Melhoria</button>
+                <button class="tab-button" data-tab="research">Pesquisa</button>
+            </div>
+            <div class="examples-content">
+                <div class="tab-content active" id="feature">
+                    <div class="example-code">
+                        <div class="code-header">
+                            <span class="code-title">BUSINESS_CONTEXT.md</span>
+                        </div>
+                        <div class="code-content">
+                            <pre><code># Contexto de Negócio: FEATURE_AUTH
+
+## 🎯 Objetivo
+Implementar sistema de autenticação completo para usuários
+
+## 📋 Requisitos Funcionais
+- Login com email/senha
+- Registro de novos usuários
+- Recuperação de senha
+- Logout seguro
+
+## ✅ Critérios de Aceitação
+- [ ] Usuário pode fazer login com credenciais válidas
+- [ ] Usuário pode registrar nova conta
+- [ ] Usuário pode recuperar senha esquecida
+- [ ] Sessão expira após inatividade
+
+## 🔒 Regras de Negócio
+- Senhas devem ter mínimo 8 caracteres
+- Emails devem ser únicos
+- Sessões expiram em 24h
+- Tentativas de login limitadas a 5 por hora</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="bug">
+                    <div class="example-code">
+                        <div class="code-header">
+                            <span class="code-title">BUSINESS_CONTEXT.md</span>
+                        </div>
+                        <div class="code-content">
+                            <pre><code># Contexto de Negócio: BUG_LOGIN_ISSUE
+
+## 🐛 Problema Identificado
+Usuários não conseguem fazer login após atualização
+
+## 🔍 Descrição do Bug
+- Login falha com erro 500
+- Acontece apenas em produção
+- Afeta 100% dos usuários
+- Detectado após deploy v2.1.0
+
+## ✅ Critérios de Aceitação
+- [ ] Login funciona normalmente
+- [ ] Não há regressões
+- [ ] Performance mantida
+- [ ] Logs de erro corrigidos
+
+## 🚨 Impacto
+- **Severidade**: Crítica
+- **Usuários afetados**: 100%
+- **Prioridade**: P0</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="improvement">
+                    <div class="example-code">
+                        <div class="code-header">
+                            <span class="code-title">BUSINESS_CONTEXT.md</span>
+                        </div>
+                        <div class="code-content">
+                            <pre><code># Contexto de Negócio: IMPROVE_PERFORMANCE
+
+## 🚀 Objetivo
+Melhorar performance da aplicação em 50%
+
+## 📊 Métricas Atuais
+- Tempo de carregamento: 3.2s
+- Bundle size: 2.1MB
+- First Contentful Paint: 2.8s
+- Largest Contentful Paint: 3.1s
+
+## 🎯 Metas
+- Tempo de carregamento: < 1.6s
+- Bundle size: < 1.0MB
+- First Contentful Paint: < 1.4s
+- Largest Contentful Paint: < 1.6s
+
+## ✅ Critérios de Aceitação
+- [ ] Performance melhorada em 50%
+- [ ] Sem regressões funcionais
+- [ ] Métricas validadas em produção</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="research">
+                    <div class="example-code">
+                        <div class="code-header">
+                            <span class="code-title">BUSINESS_CONTEXT.md</span>
+                        </div>
+                        <div class="code-content">
+                            <pre><code># Contexto de Negócio: RESEARCH_AI_INTEGRATION
+
+## 🔬 Objetivo
+Avaliar integração de IA para automação de testes
+
+## 📋 Escopo da Pesquisa
+- Análise de ferramentas disponíveis
+- Avaliação de custo-benefício
+- Protótipo de integração
+- Documentação de recomendações
+
+## ✅ Critérios de Aceitação
+- [ ] Relatório comparativo de ferramentas
+- [ ] Análise de custo-benefício
+- [ ] Protótipo funcional
+- [ ] Recomendações documentadas
+
+## 📅 Prazo
+- **Duração**: 2 semanas
+- **Entregável**: Relatório + Protótipo</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MCP Integration Section -->
+    <section id="mcp-integration" class="mcp-integration">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Integração MCP</h2>
+                <p class="section-description">
+                    Conecte o Flow diretamente com assistentes de IA para automação completa do desenvolvimento
+                </p>
+            </div>
+            
+            <div class="mcp-content">
+                <div class="mcp-overview">
+                    <div class="mcp-card">
+                        <div class="mcp-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3 class="mcp-title">O que é MCP?</h3>
+                        <p class="mcp-description">
+                            O Model Context Protocol (MCP) permite que assistentes de IA se conectem diretamente ao Flow, 
+                            executando comandos e gerando conteúdo automaticamente.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mcp-configuration">
+                    <h3 class="mcp-subtitle">🔧 Configuração</h3>
+                    <p class="mcp-text">Adicione o Flow ao seu assistente de IA favorito:</p>
+                    
+                    <div class="config-tabs">
+                        <button class="config-tab active" data-config="cursor">Cursor</button>
+                        <button class="config-tab" data-config="claude">Claude Desktop</button>
+                        <button class="config-tab" data-config="aider">Aider</button>
+                        <button class="config-tab" data-config="gemini">Gemini CLI</button>
+                    </div>
+
+                    <div class="config-content">
+                        <div class="config-panel active" id="cursor">
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-title">cursor/mcp_servers.json</span>
+                                    <button class="code-copy" aria-label="Copiar configuração">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <path d="M4 2C4 1.44772 4.44772 1 5 1H11C11.5523 1 12 1.44772 12 2V4C12 4.55228 11.5523 5 11 5H5C4.44772 5 4 4.55228 4 4V2Z" stroke="currentColor" stroke-width="1.5"/>
+                                            <path d="M4 6C4 5.44772 4.44772 5 5 5H11C11.5523 5 12 5.44772 12 6V8C12 8.55228 11.5523 9 11 9H5C4.44772 9 4 8.55228 4 8V6Z" stroke="currentColor" stroke-width="1.5"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="code-content">
+                                    <pre><code>{
+  "mcpServers": {
+    "flow": {
+      "command": "npx",
+      "args": ["@godrix/flow", "mcp"]
+    }
+  }
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="config-panel" id="claude">
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-title">claude_desktop_config.json</span>
+                                    <button class="code-copy" aria-label="Copiar configuração">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <path d="M4 2C4 1.44772 4.44772 1 5 1H11C11.5523 1 12 1.44772 12 2V4C12 4.55228 11.5523 5 11 5H5C4.44772 5 4 4.55228 4 4V2Z" stroke="currentColor" stroke-width="1.5"/>
+                                            <path d="M4 6C4 5.44772 4.44772 5 5 5H11C11.5523 5 12 5.44772 12 6V8C12 8.55228 11.5523 9 11 9H5C4.44772 9 4 8.55228 4 8V6Z" stroke="currentColor" stroke-width="1.5"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="code-content">
+                                    <pre><code>{
+  "mcpServers": {
+    "flow": {
+      "command": "npx",
+      "args": ["@godrix/flow", "mcp"],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="config-panel" id="aider">
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-title">.aider.conf.yml</span>
+                                    <button class="code-copy" aria-label="Copiar configuração">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <path d="M4 2C4 1.44772 4.44772 1 5 1H11C11.5523 1 12 1.44772 12 2V4C12 4.55228 11.5523 5 11 5H5C4.44772 5 4 4.55228 4 4V2Z" stroke="currentColor" stroke-width="1.5"/>
+                                            <path d="M4 6C4 5.44772 4.44772 5 5 5H11C11.5523 5 12 5.44772 12 6V8C12 8.55228 11.5523 9 11 9H5C4.44772 9 4 8.55228 4 8V6Z" stroke="currentColor" stroke-width="1.5"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="code-content">
+                                    <pre><code>mcp:
+  servers:
+    flow:
+      command: npx
+      args: ["@godrix/flow", "mcp"]
+
+read: AGENTS.md</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="config-panel" id="gemini">
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span class="code-title">.gemini/settings.json</span>
+                                    <button class="code-copy" aria-label="Copiar configuração">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <path d="M4 2C4 1.44772 4.44772 1 5 1H11C11.5523 1 12 1.44772 12 2V4C12 4.55228 11.5523 5 11 5H5C4.44772 5 4 4.55228 4 4V2Z" stroke="currentColor" stroke-width="1.5"/>
+                                            <path d="M4 6C4 5.44772 4.44772 5 5 5H11C11.5523 5 12 5.44772 12 6V8C12 8.55228 11.5523 9 11 9H5C4.44772 9 4 8.55228 4 8V6Z" stroke="currentColor" stroke-width="1.5"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="code-content">
+                                    <pre><code>{
+  "mcpServers": {
+    "flow": {
+      "command": "npx",
+      "args": ["@godrix/flow", "mcp"]
+    }
+  },
+  "contextFileName": "AGENTS.md"
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mcp-workflow">
+                    <h3 class="mcp-subtitle">🚀 Workflow Completo com IA</h3>
+                    <p class="mcp-text">Veja como a IA pode interagir automaticamente com o Flow:</p>
+                    
+                    <div class="workflow-steps">
+                        <div class="workflow-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4 class="step-title">Inicializar Projeto</h4>
+                                <p class="step-description">A IA cria a estrutura completa do projeto</p>
+                                <div class="step-example">
+                                    <strong>Comando da IA:</strong> "Inicialize um novo projeto Flow para e-commerce"
+                                    <br><strong>Ação:</strong> <code>init_flow_project()</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="workflow-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4 class="step-title">Criar Task</h4>
+                                <p class="step-description">A IA cria uma nova tarefa estruturada</p>
+                                <div class="step-example">
+                                    <strong>Comando da IA:</strong> "Crie uma task para implementar autenticação"
+                                    <br><strong>Ação:</strong> <code>create_task("FEATURE_AUTH", "feature")</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="workflow-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4 class="step-title">Gerar Contexto</h4>
+                                <p class="step-description">A IA gera requisitos detalhados automaticamente</p>
+                                <div class="step-example">
+                                    <strong>Comando da IA:</strong> "Gere o BUSINESS_CONTEXT baseado na descrição"
+                                    <br><strong>Ação:</strong> <code>generate_business_context()</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="workflow-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4 class="step-title">Planejar Implementação</h4>
+                                <p class="step-description">A IA cria o plano técnico detalhado</p>
+                                <div class="step-example">
+                                    <strong>Comando da IA:</strong> "Gere o APPROACH baseado no contexto"
+                                    <br><strong>Ação:</strong> <code>generate_approach()</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="workflow-step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4 class="step-title">Documentar Conclusão</h4>
+                                <p class="step-description">A IA documenta o trabalho realizado</p>
+                                <div class="step-example">
+                                    <strong>Comando da IA:</strong> "Após implementar, gere o COMPLETION_REPORT"
+                                    <br><strong>Ação:</strong> <code>generate_completion_report()</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mcp-tools">
+                    <h3 class="mcp-subtitle">🛠️ Ferramentas Disponíveis</h3>
+                    <div class="tools-grid">
+                        <div class="tool-card">
+                            <h4 class="tool-title">Core Features</h4>
+                            <ul class="tool-list">
+                                <li><code>init_flow_project</code> - Inicializar projeto</li>
+                                <li><code>create_task</code> - Criar tasks</li>
+                                <li><code>list_tasks</code> - Listar tasks</li>
+                                <li><code>validate_task</code> - Validar estrutura</li>
+                                <li><code>get_task_info</code> - Obter informações</li>
+                                <li><code>get_project_status</code> - Estatísticas</li>
+                            </ul>
+                        </div>
+                        <div class="tool-card">
+                            <h4 class="tool-title">AI Integration</h4>
+                            <ul class="tool-list">
+                                <li><code>generate_business_context</code> - Gerar contexto</li>
+                                <li><code>generate_approach</code> - Gerar plano</li>
+                                <li><code>generate_completion_report</code> - Gerar relatório</li>
+                                <li><code>analyze_codebase</code> - Analisar código</li>
+                                <li><code>update_project_context</code> - Atualizar contexto</li>
+                                <li><code>customize_agents</code> - Personalizar AGENTS.md</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mcp-example">
+                    <h3 class="mcp-subtitle">💡 Exemplo Prático</h3>
+                    <p class="mcp-text">Veja uma conversa real entre você e a IA:</p>
+                    
+                    <div class="conversation">
+                        <div class="message user">
+                            <div class="message-header">
+                                <span class="message-sender">Você</span>
+                                <span class="message-time">14:32</span>
+                            </div>
+                            <div class="message-content">
+                                Preciso implementar um sistema de carrinho de compras para meu e-commerce. 
+                                Pode me ajudar a estruturar isso com o Flow?
+                            </div>
+                        </div>
+                        
+                        <div class="message ai">
+                            <div class="message-header">
+                                <span class="message-sender">IA</span>
+                                <span class="message-time">14:33</span>
+                            </div>
+                            <div class="message-content">
+                                Claro! Vou criar uma estrutura completa para o sistema de carrinho. 
+                                Primeiro, vou inicializar o projeto Flow e depois criar a task específica.
+                                <br><br>
+                                <em>Executando: init_flow_project()</em>
+                                <br>
+                                <em>Executando: create_task("FEATURE_CART", "feature")</em>
+                                <br>
+                                <em>Executando: generate_business_context()</em>
+                                <br><br>
+                                ✅ Estrutura criada! Agora vou gerar o contexto de negócio detalhado...
+                            </div>
+                        </div>
+                        
+                        <div class="message user">
+                            <div class="message-header">
+                                <span class="message-sender">Você</span>
+                                <span class="message-time">14:34</span>
+                            </div>
+                            <div class="message-content">
+                                Perfeito! Agora preciso do plano técnico para implementar.
+                            </div>
+                        </div>
+                        
+                        <div class="message ai">
+                            <div class="message-header">
+                                <span class="message-sender">IA</span>
+                                <span class="message-time">14:35</span>
+                            </div>
+                            <div class="message-content">
+                                <em>Executando: generate_approach()</em>
+                                <br><br>
+                                ✅ Plano técnico gerado! O APPROACH.md agora contém:
+                                <br>• Arquitetura do carrinho
+                                <br>• Modelos de dados
+                                <br>• APIs necessárias
+                                <br>• Estratégia de testes
+                                <br><br>
+                                Pronto para implementação! 🚀
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <section id="docs" class="documentation">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Documentação Completa</h2>
+                <p class="section-description">
+                    Explore todos os recursos e funcionalidades do Flow
+                </p>
+            </div>
+            <div class="docs-grid">
+                <div class="doc-card">
+                    <div class="doc-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="doc-title">Guia de Instalação</h3>
+                    <p class="doc-description">Instale e configure o Flow em seu ambiente</p>
+                    <a href="#" class="doc-link">Ler mais →</a>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3 class="doc-title">Comandos CLI</h3>
+                    <p class="doc-description">Referência completa de todos os comandos</p>
+                    <a href="#" class="doc-link">Ler mais →</a>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="doc-title">Integração MCP</h3>
+                    <p class="doc-description">Configure integração com assistentes de IA</p>
+                    <a href="#" class="doc-link">Ler mais →</a>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3 class="doc-title">Templates</h3>
+                    <p class="doc-description">Personalize templates para seu projeto</p>
+                    <a href="#" class="doc-link">Ler mais →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/logo.svg" alt="Flow" class="footer-logo">
+                    <span class="footer-brand-text">Flow</span>
+                    <p class="footer-description">
+                        Context-Driven Development para colaboração eficiente entre humanos e IA
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4 class="footer-title">Recursos</h4>
+                        <ul class="footer-list">
+                            <li><a href="#features" class="footer-link">Recursos</a></li>
+                            <li><a href="#getting-started" class="footer-link">Começar</a></li>
+                            <li><a href="#examples" class="footer-link">Exemplos</a></li>
+                            <li><a href="#docs" class="footer-link">Documentação</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4 class="footer-title">Comunidade</h4>
+                        <ul class="footer-list">
+                            <li><a href="https://github.com/godrix/flow" class="footer-link" target="_blank" rel="noopener">GitHub</a></li>
+                            <li><a href="https://github.com/godrix/flow/issues" class="footer-link" target="_blank" rel="noopener">Issues</a></li>
+                            <li><a href="https://github.com/godrix/flow/discussions" class="footer-link" target="_blank" rel="noopener">Discussões</a></li>
+                            <li><a href="https://github.com/godrix/flow/blob/main/CHANGELOG.md" class="footer-link" target="_blank" rel="noopener">Changelog</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4 class="footer-title">Legal</h4>
+                        <ul class="footer-list">
+                            <li><a href="https://github.com/godrix/flow/blob/main/LICENSE" class="footer-link" target="_blank" rel="noopener">Licença MIT</a></li>
+                            <li><a href="https://github.com/godrix/flow/blob/main/CONTRIBUTING.md" class="footer-link" target="_blank" rel="noopener">Contribuindo</a></li>
+                            <li><a href="https://github.com/godrix/flow/blob/main/CODE_OF_CONDUCT.md" class="footer-link" target="_blank" rel="noopener">Código de Conduta</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    Desenvolvido com ❤️ por <a href="https://github.com/godrix" class="footer-link" target="_blank" rel="noopener">Carlos Godri</a> para melhorar a colaboração entre humanos e IA no desenvolvimento de software.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

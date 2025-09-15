@@ -1,0 +1,21 @@
+{
+  "name": "Flow - Context-Driven Development",
+  "short_name": "Flow",
+  "description": "CLI para criar contextos estruturados de tarefas com templates otimizados para IA",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "developer", "tools"],
+  "lang": "pt-BR",
+  "dir": "ltr"
+}
