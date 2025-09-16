@@ -214,6 +214,8 @@ Este projeto implementa um servidor MCP que expõe ferramentas específicas para
 - **`analyze_codebase`**: Analisa o codebase atual
 - **`update_project_context`**: Atualiza o PROJECT_CONTEXT.md
 - **`init_flow_project`**: Inicializa um novo projeto Flow
+- **`update_agents_template`**: Atualiza AGENTS.md preservando personalizações do usuário
+- **`check_agents_update`**: Verifica se há atualizações disponíveis sem aplicar mudanças
 
 ### **⚠️ IMPORTANTE: Parâmetro `workingDirectory`**
 Use o parâmetro `workingDirectory` em todas as ferramentas MCP para especificar o diretório correto do projeto, pois o MCP server roda no diretório do próprio Flow.
@@ -227,6 +229,71 @@ Use o parâmetro `workingDirectory` em todas as ferramentas MCP para especificar
 5. [Desenvolvimento manual]
 6. generate_completion_report → Documentar conclusão
 7. validate_task → Validar qualidade
+```
+
+### **🔄 Atualização Inteligente do AGENTS.md**
+
+A ferramenta `update_agents_template` permite atualizar o template AGENTS.md preservando as personalizações do usuário:
+
+**Parâmetros:**
+- `workingDirectory`: Diretório do projeto (opcional)
+- `forceUpdate`: Força atualização mesmo sem mudanças de versão (padrão: false)
+- `preserveCustomizations`: Preserva personalizações do usuário (padrão: true)
+- `backupOriginal`: Cria backup antes da atualização (padrão: true)
+
+**Como funciona:**
+1. **Detecção de versão**: Compara versão atual com template
+2. **Backup automático**: Cria backup com timestamp
+3. **Preservação inteligente**: Mantém seções personalizadas
+4. **Mesclagem segura**: Combina template atualizado com customizações
+
+**Exemplo de uso:**
+```javascript
+// Atualização automática (só atualiza se necessário)
+update_agents_template({
+  workingDirectory: "/path/to/project"
+})
+
+// Atualização forçada
+update_agents_template({
+  workingDirectory: "/path/to/project",
+  forceUpdate: true
+})
+```
+
+### **🔍 Verificação de Atualizações**
+
+A ferramenta `check_agents_update` permite verificar se há atualizações disponíveis sem aplicar mudanças:
+
+**Parâmetros:**
+- `workingDirectory`: Diretório do projeto (opcional)
+- `showDetails`: Mostra comparação detalhada entre versões (padrão: false)
+
+**Como funciona:**
+1. **Comparação de versões**: Compara versão atual com template
+2. **Detecção de personalizações**: Identifica customizações do usuário
+3. **Análise de diferenças**: Detecta novas regras, ferramentas e seções
+4. **Recomendações**: Sugere próximos passos baseado no status
+
+**Exemplo de uso:**
+```javascript
+// Verificação simples
+check_agents_update({
+  workingDirectory: "/path/to/project"
+})
+
+// Verificação detalhada
+check_agents_update({
+  workingDirectory: "/path/to/project",
+  showDetails: true
+})
+```
+
+**Workflow recomendado:**
+```
+1. check_agents_update → Verificar se há atualizações
+2. [Se necessário] update_agents_template → Aplicar atualizações
+3. validate_task → Validar resultado
 ```
 
 ## 🔗 Referenciando Outras Tasks

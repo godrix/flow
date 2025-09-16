@@ -14,7 +14,7 @@ import path from 'path';
 const server = new Server(
   {
     name: 'flow-mcp-server',
-    version: '1.6.0',
+    version: '1.10.0',
   },
   {
     capabilities: {
@@ -414,6 +414,52 @@ const tools: Tool[] = [
         },
       },
       required: ['instruction'],
+    },
+  },
+  {
+    name: 'update_agents_template',
+    description: 'Intelligently update AGENTS.md template while preserving user customizations',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        workingDirectory: {
+          type: 'string',
+          description: 'Working directory where the AGENTS.md file is located',
+        },
+        forceUpdate: {
+          type: 'boolean',
+          description: 'Force update even if no version changes detected (default: false)',
+          default: false,
+        },
+        preserveCustomizations: {
+          type: 'boolean',
+          description: 'Preserve user customizations in development and PR sections (default: true)',
+          default: true,
+        },
+        backupOriginal: {
+          type: 'boolean',
+          description: 'Create backup of original file before updating (default: true)',
+          default: true,
+        },
+      },
+    },
+  },
+  {
+    name: 'check_agents_update',
+    description: 'Check if AGENTS.md template has updates available without applying them',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        workingDirectory: {
+          type: 'string',
+          description: 'Working directory where the AGENTS.md file is located',
+        },
+        showDetails: {
+          type: 'boolean',
+          description: 'Show detailed comparison between current and template versions (default: false)',
+          default: false,
+        },
+      },
     },
   },
   {
@@ -2599,6 +2645,279 @@ Este documento deve ser atualizado quando:
         };
       }
 
+      case 'update_agents_template': {
+        const { workingDirectory, forceUpdate = false, preserveCustomizations = true, backupOriginal = true } = args as {
+          workingDirectory?: string;
+          forceUpdate?: boolean;
+          preserveCustomizations?: boolean;
+          backupOriginal?: boolean;
+        };
+
+        const currentDir = workingDirectory ? path.resolve(workingDirectory) : process.cwd();
+        const agentsPath = path.join(currentDir, 'AGENTS.md');
+        const agentsScopedPath = path.join(currentDir, '.flow', 'AGENTS.md');
+        
+        // Determine which AGENTS.md to use (root or .flow/)
+        let targetAgentsPath = agentsPath;
+        if (await fs.pathExists(agentsScopedPath) && !(await fs.pathExists(agentsPath))) {
+          targetAgentsPath = agentsScopedPath;
+        }
+
+        // Check if AGENTS.md exists
+        if (!(await fs.pathExists(targetAgentsPath))) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: `❌ AGENTS.md não encontrado!\n\n📁 Procurado em: ${targetAgentsPath}\n\nUse 'init_flow_project' para criar o arquivo AGENTS.md primeiro.`,
+              },
+            ],
+          };
+        }
+
+        // Read current content
+        const currentContent = await fs.readFile(targetAgentsPath, 'utf-8');
+        
+        // Read template content
+        const templatePath = path.join(path.dirname(new URL(import.meta.url).pathname), 'templates', 'AGENTS.md');
+        if (!(await fs.pathExists(templatePath))) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: `❌ Template AGENTS.md não encontrado!\n\n📁 Procurado em: ${templatePath}`,
+              },
+            ],
+          };
+        }
+
+        const templateContent = await fs.readFile(templatePath, 'utf-8');
+
+        // Extract version from template
+        const templateVersionMatch = templateContent.match(/version: '(\d+\.\d+\.\d+)'/);
+        const currentVersionMatch = currentContent.match(/version: '(\d+\.\d+\.\d+)'/);
+        
+        const templateVersion = templateVersionMatch ? templateVersionMatch[1] : '1.0.0';
+        const currentVersion = currentVersionMatch ? currentVersionMatch[1] : '1.0.0';
+
+        // Check if update is needed
+        if (!forceUpdate && templateVersion === currentVersion) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: `✅ AGENTS.md já está atualizado!\n\n📋 Versão atual: ${currentVersion}\n📋 Versão do template: ${templateVersion}\n\nUse 'forceUpdate: true' para forçar a atualização.`,
+              },
+            ],
+          };
+        }
+
+        // Create backup if requested
+        if (backupOriginal) {
+          const backupPath = `${targetAgentsPath}.backup.${new Date().toISOString().split('T')[0]}`;
+          await fs.writeFile(backupPath, currentContent);
+        }
+
+        let updatedContent = templateContent;
+
+        // Preserve user customizations if requested
+        if (preserveCustomizations) {
+          // Extract user customizations from development section
+          const devSectionRegex = /(## 🛠️ Instruções de Desenvolvimento[\s\S]*?)(?=##|$)/;
+          const currentDevMatch = currentContent.match(devSectionRegex);
+          const templateDevMatch = templateContent.match(devSectionRegex);
+
+          if (currentDevMatch && templateDevMatch) {
+            const currentDevSection = currentDevMatch[1];
+            const templateDevSection = templateDevMatch[1];
+            
+            // Check if current section has customizations (more than just placeholders)
+            const hasCustomizations = currentDevSection.includes('**Personalize**:') || 
+                                    currentDevSection.includes('**Exemplo**:') ||
+                                    currentDevSection.includes('**Regras específicas**:') ||
+                                    currentDevSection.includes('**Organização**:') ||
+                                    currentDevSection.includes('**Padrões específicos**:') ||
+                                    currentDevSection.includes('**Critérios específicos**:');
+
+            if (hasCustomizations) {
+              // Replace template development section with current one
+              updatedContent = updatedContent.replace(devSectionRegex, currentDevSection);
+            }
+          }
+
+          // Extract user customizations from PR section
+          const prSectionRegex = /(## 📋 Instruções de PR[\s\S]*?)(?=##|$)/;
+          const currentPrMatch = currentContent.match(prSectionRegex);
+          const templatePrMatch = templateContent.match(prSectionRegex);
+
+          if (currentPrMatch && templatePrMatch) {
+            const currentPrSection = currentPrMatch[1];
+            const templatePrSection = templatePrMatch[1];
+            
+            // Check if current section has customizations
+            const hasCustomizations = currentPrSection.includes('**Personalize**:') || 
+                                    currentPrSection.includes('**Exemplo**:') ||
+                                    currentPrSection.includes('**Regras específicas**:') ||
+                                    currentPrSection.includes('**Critérios específicos**:');
+
+            if (hasCustomizations) {
+              // Replace template PR section with current one
+              updatedContent = updatedContent.replace(prSectionRegex, currentPrSection);
+            }
+          }
+        }
+
+        // Write updated content
+        await fs.writeFile(targetAgentsPath, updatedContent);
+
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `✅ AGENTS.md atualizado com sucesso!\n\n📁 Arquivo: ${targetAgentsPath}\n📋 Versão anterior: ${currentVersion}\n📋 Nova versão: ${templateVersion}\n${backupOriginal ? `💾 Backup criado: ${targetAgentsPath}.backup.${new Date().toISOString().split('T')[0]}\n` : ''}${preserveCustomizations ? `🔒 Personalizações preservadas: Sim\n` : ''}\n\nPrincipais atualizações:\n- Regras críticas atualizadas\n- Processo de confirmação implícita\n- Ferramentas MCP atualizadas\n- Boas práticas revisadas`,
+            },
+          ],
+        };
+      }
+
+      case 'check_agents_update': {
+        const { workingDirectory, showDetails = false } = args as {
+          workingDirectory?: string;
+          showDetails?: boolean;
+        };
+
+        const currentDir = workingDirectory ? path.resolve(workingDirectory) : process.cwd();
+        const agentsPath = path.join(currentDir, 'AGENTS.md');
+        const agentsScopedPath = path.join(currentDir, '.flow', 'AGENTS.md');
+        
+        // Determine which AGENTS.md to use (root or .flow/)
+        let targetAgentsPath = agentsPath;
+        if (await fs.pathExists(agentsScopedPath) && !(await fs.pathExists(agentsPath))) {
+          targetAgentsPath = agentsScopedPath;
+        }
+
+        // Check if AGENTS.md exists
+        if (!(await fs.pathExists(targetAgentsPath))) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: `❌ AGENTS.md não encontrado!\n\n📁 Procurado em: ${targetAgentsPath}\n\nUse 'init_flow_project' para criar o arquivo AGENTS.md primeiro.`,
+              },
+            ],
+          };
+        }
+
+        // Read current content
+        const currentContent = await fs.readFile(targetAgentsPath, 'utf-8');
+        
+        // Read template content
+        const templatePath = path.join(path.dirname(new URL(import.meta.url).pathname), 'templates', 'AGENTS.md');
+        if (!(await fs.pathExists(templatePath))) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: `❌ Template AGENTS.md não encontrado!\n\n📁 Procurado em: ${templatePath}`,
+              },
+            ],
+          };
+        }
+
+        const templateContent = await fs.readFile(templatePath, 'utf-8');
+
+        // Extract version from template
+        const templateVersionMatch = templateContent.match(/version: '(\d+\.\d+\.\d+)'/);
+        const currentVersionMatch = currentContent.match(/version: '(\d+\.\d+\.\d+)'/);
+        
+        const templateVersion = templateVersionMatch ? templateVersionMatch[1] : '1.0.0';
+        const currentVersion = currentVersionMatch ? currentVersionMatch[1] : '1.0.0';
+
+        // Check if update is needed
+        const needsUpdate = templateVersion !== currentVersion;
+        
+        // Extract key differences if showDetails is true
+        let detailsText = '';
+        if (showDetails && needsUpdate) {
+          detailsText = '\n\n📋 **Principais diferenças detectadas:**\n';
+          
+          // Check for new critical rules
+          const currentRulesMatch = currentContent.match(/## 🚨 Regras Críticas[\s\S]*?(?=##|$)/);
+          const templateRulesMatch = templateContent.match(/## 🚨 Regras Críticas[\s\S]*?(?=##|$)/);
+          
+          if (currentRulesMatch && templateRulesMatch) {
+            const currentRules = currentRulesMatch[0];
+            const templateRules = templateRulesMatch[0];
+            
+            // Count rules
+            const currentRuleCount = (currentRules.match(/^\d+\./gm) || []).length;
+            const templateRuleCount = (templateRules.match(/^\d+\./gm) || []).length;
+            
+            if (templateRuleCount > currentRuleCount) {
+              detailsText += `- **Novas regras críticas**: ${templateRuleCount - currentRuleCount} regra(s) adicionada(s)\n`;
+            }
+          }
+          
+          // Check for new MCP tools
+          const currentToolsMatch = currentContent.match(/### \*\*Ferramentas Principais\*\*[\s\S]*?(?=###|##|$)/);
+          const templateToolsMatch = templateContent.match(/### \*\*Ferramentas Principais\*\*[\s\S]*?(?=##|$)/);
+          
+          if (currentToolsMatch && templateToolsMatch) {
+            const currentTools = currentToolsMatch[0];
+            const templateTools = templateToolsMatch[0];
+            
+            // Count tools
+            const currentToolCount = (currentTools.match(/^- \*\*`[^`]+`\*\*:/gm) || []).length;
+            const templateToolCount = (templateTools.match(/^- \*\*`[^`]+`\*\*:/gm) || []).length;
+            
+            if (templateToolCount > currentToolCount) {
+              detailsText += `- **Novas ferramentas MCP**: ${templateToolCount - currentToolCount} ferramenta(s) adicionada(s)\n`;
+            }
+          }
+          
+          // Check for new sections
+          const currentSections = (currentContent.match(/^## [^#]/gm) || []).map(s => s.trim());
+          const templateSections = (templateContent.match(/^## [^#]/gm) || []).map(s => s.trim());
+          
+          const newSections = templateSections.filter(section => !currentSections.includes(section));
+          if (newSections.length > 0) {
+            detailsText += `- **Novas seções**: ${newSections.join(', ')}\n`;
+          }
+          
+          if (detailsText === '\n\n📋 **Principais diferenças detectadas:**\n') {
+            detailsText += '- Mudanças gerais no template (melhorias e correções)\n';
+          }
+        }
+
+        // Check for user customizations
+        const hasCustomizations = currentContent.includes('**Personalize**:') || 
+                                 currentContent.includes('**Exemplo**:') ||
+                                 currentContent.includes('**Regras específicas**:') ||
+                                 currentContent.includes('**Organização**:') ||
+                                 currentContent.includes('**Padrões específicos**:') ||
+                                 currentContent.includes('**Critérios específicos**:');
+
+        let statusIcon = needsUpdate ? '🔄' : '✅';
+        let statusText = needsUpdate ? 'Atualização disponível' : 'Template atualizado';
+        
+        let recommendationText = '';
+        if (needsUpdate) {
+          if (hasCustomizations) {
+            recommendationText = '\n\n💡 **Recomendação**: Use `update_agents_template` com `preserveCustomizations: true` para manter suas personalizações.';
+          } else {
+            recommendationText = '\n\n💡 **Recomendação**: Use `update_agents_template` para aplicar as atualizações.';
+          }
+        }
+
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `${statusIcon} **Status do AGENTS.md**\n\n📁 Arquivo: ${targetAgentsPath}\n📋 Versão atual: ${currentVersion}\n📋 Versão do template: ${templateVersion}\n🔍 Status: ${statusText}${hasCustomizations ? '\n🔒 Personalizações detectadas: Sim' : '\n🔒 Personalizações detectadas: Não'}${detailsText}${recommendationText}`,
+            },
+          ],
+        };
+      }
 
       case 'init_flow_project': {
         const { projectName, mission, goals, techStack, architecture, standards, tools, metrics, notes, workingDirectory, agentsScoped = false } = args as {
