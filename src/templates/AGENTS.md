@@ -245,12 +245,38 @@ Use o parâmetro `workingDirectory` em todas as ferramentas MCP para especificar
 
 ## 🚨 Regras Críticas
 
-1. **NUNCA** modifique APPROACH.md ou BUSINESS_CONTEXT.md
+1. **NUNCA** modifique APPROACH.md ou BUSINESS_CONTEXT.md sem permissão ou sem a solicitação do usuário
 2. **SEMPRE** atualize COMPLETION_REPORT.md após ações significativas
 3. **SEMPRE** solicite permissão antes de modificar PROJECT_CONTEXT.md
 4. **SEMPRE** valide contra critérios de aceitação antes de finalizar
 5. **SEMPRE** mantenha rastreabilidade entre ações e tarefas planejadas
 6. **SEMPRE** trabalhe apenas com arquivos da task atual, exceto quando explicitamente referenciando outras
+7. **SEMPRE** após análise completa e interação com o usuário, pergunte implicitamente se deve prosseguir com a implementação antes de executar mudanças significativas no código
+
+### 🔄 Processo de Confirmação Implícita
+
+**Quando aplicar:**
+- Após análise completa do problema/requisito
+- Após discussão de soluções com o usuário
+- Antes de implementar mudanças significativas no código
+- Antes de criar novos arquivos ou estruturas
+
+**Como perguntar implicitamente:**
+- **Exemplo 1**: "Com base na análise, posso prosseguir com a implementação da solução proposta?"
+- **Exemplo 2**: "A solução está clara. Devo implementar essas mudanças agora?"
+- **Exemplo 3**: "Entendi os requisitos. Posso começar a implementação?"
+- **Exemplo 4**: "A abordagem está definida. Devo executar o plano de implementação?"
+
+**Formato recomendado:**
+```
+[Análise completa] + [Solução proposta] + [Pergunta implícita sobre implementação]
+```
+
+**Benefícios:**
+- ✅ Confirma alinhamento antes da implementação
+- ✅ Evita trabalho desnecessário
+- ✅ Permite ajustes finais antes do código
+- ✅ Mantém controle do usuário sobre o processo
 
 ## 💡 Boas Práticas
 
