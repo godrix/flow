@@ -5,6 +5,18 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.11.2] - 2024-12-20
+
+### Fixed
+- **Bug crítico**: Corrigido erro `__dirname is not defined` na função `generate_business_context`
+- **Compatibilidade ES modules**: Adicionada definição correta de `__dirname` usando `fileURLToPath` e `dirname`
+- **MCP Server**: Função `generate_business_context` agora funciona corretamente em ambientes ES modules
+
+### Technical
+- **ES Modules**: Substituído uso direto de `__dirname` por implementação compatível com ES modules
+- **Imports**: Adicionados imports necessários (`fileURLToPath`, `dirname`) no mcp-server.ts
+- **Compilação**: Projeto recompilado com correções aplicadas
+
 ## [1.8.0] - 2024-12-19
 
 ### Added

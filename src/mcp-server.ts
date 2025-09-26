@@ -10,11 +10,17 @@ import {
 import { createTaskContext } from './services/taskService.js';
 import fs from 'fs-extra';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// Define __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const server = new Server(
   {
     name: 'flow-mcp-server',
-    version: '1.10.0',
+    version: '1.11.2',
   },
   {
     capabilities: {
